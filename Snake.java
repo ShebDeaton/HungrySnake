@@ -11,9 +11,15 @@ public class Snake extends JPanel{
     private BufferedImage img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     private Timer snakeAnimation;
     private Random rand = new Random();
+    //Tail Stuff
+    private int tailDuration = 0;
+    private static int tailMax = 5;
+    private int[] segmentX = new int[tailMax+1];
+    private int[] segmentY = new int[tailMax+1];
+
     
     //speed of the snake
-    private int snakeDelay = 50;
+    private int snakeDelay = 500;
     
     //Starting coordinates of the snake
     int startX;
@@ -31,6 +37,7 @@ public class Snake extends JPanel{
         JButton addSnake = new JButton("Add");
         addSnake.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                tailDuration = 0;
                 drawSnake();
             }
         });
@@ -58,18 +65,48 @@ public class Snake extends JPanel{
         ActionListener timerDraw = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Graphics2D g2 = img.createGraphics();
-                
-                //temporary color of this snake
-                g2.setColor(Color.blue);
-                
                 //changes the positioning of the snake, basically
                 //it's next moves
-                int newX = startX + (int) (Math.random() * 5);
-                int newY = startY + (int) (Math.random() * 5);
-                
+                int newX = startX + (int) ((Math.round(Math.random())*2-1) * 5);
+                int newY = startY + (int) ((Math.round(Math.random())*2-1) * 5);
+
+                //Keeps track of Tail Segments.
+                if(tailDuration == 0) {
+                    segmentX[tailDuration] = startX;
+                    segmentY[tailDuration] = startY;
+                    tailDuration++;
+                }
+                else if(tailDuration < tailMax) {
+                    segmentX[tailDuration] = startX;
+                    segmentY[tailDuration] = startY;
+                    tailDuration++;
+                }
+                else if(tailDuration == tailMax) {
+                    //Get rid of last tail segment.
+                    segmentX[tailDuration] = startX;
+                    segmentY[tailDuration] = startY;
+                    g2.setColor(Color.white);
+                    g2.fillOval(segmentX[0], segmentY[0], size, size);
+                    //Shifts all segments down.
+                    for(int i=0;i<tailMax;i++)
+                    {
+                        segmentX[i] = segmentX[i+1];
+                        segmentY[i] = segmentY[i+1];
+                        //Might have to use something similar to color the tail consistently?
+                    }
+                }
+
+                //Different color for the tail to see
+                g2.setColor(Color.green);
+                g2.fillOval(startX, startY, size, size);
+
+                //temporary color of this snake
+                g2.setColor(Color.blue);
                 //the base shape of the snake
                 g2.fillOval(newX, newY, size, size);
-                
+
+
+                //New starting point based on current position.
                 startX = newX;
                 startY = newY;
                 
@@ -87,20 +124,5 @@ public class Snake extends JPanel{
         //im ngl i have no idea what this does but seems important
         if (img != null)
             g.drawImage(img, 0, 0, this);
-    }
-    
-    private static void SnakeWindow() {
-        Snake trialSnake = new Snake();
-        
-        JFrame window = new JFrame("trial");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.add(trialSnake);
-        window.setSize(imageWidth, imageHeight);
-        window.setVisible(true);
-    }
-    
-    public static void main(String[] args) {
-        SnakeWindow();
-    }
-    
+    } 
 }
