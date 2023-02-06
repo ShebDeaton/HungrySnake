@@ -26,7 +26,7 @@ public class Snake extends JPanel{
     int startY;
     
     //radius of body of snake
-    int size = 10;
+    int size = 15;
     
     public Snake()
     {  
