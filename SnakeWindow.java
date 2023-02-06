@@ -30,7 +30,7 @@ public class SnakeWindow extends JFrame{
                  //Options Menu Code
                }
             });
-        this.setJMenuBar(menuBar);
+        this.setJMenuBar(menuBar);   
     }
 
     public static void main(String[] args) {

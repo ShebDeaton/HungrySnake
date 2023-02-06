@@ -59,8 +59,8 @@ public class Snake extends JPanel{
             snakeAnimation.stop();
         }
         
-        startX = rand.nextInt(700);
-        startY = rand.nextInt(700);
+        startX = rand.nextInt(imageWidth);
+        startY = rand.nextInt(imageHeight);
         
         ActionListener timerDraw = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -71,12 +71,7 @@ public class Snake extends JPanel{
                 int newY = startY + (int) ((Math.round(Math.random())*2-1) * 5);
 
                 //Keeps track of Tail Segments.
-                if(tailDuration == 0) {
-                    segmentX[tailDuration] = startX;
-                    segmentY[tailDuration] = startY;
-                    tailDuration++;
-                }
-                else if(tailDuration < tailMax) {
+                if(tailDuration < tailMax) {
                     segmentX[tailDuration] = startX;
                     segmentY[tailDuration] = startY;
                     tailDuration++;
@@ -105,7 +100,6 @@ public class Snake extends JPanel{
                 //the base shape of the snake
                 g2.fillOval(newX, newY, size, size);
 
-
                 //New starting point based on current position.
                 startX = newX;
                 startY = newY;
@@ -117,10 +111,20 @@ public class Snake extends JPanel{
         snakeAnimation = new Timer(snakeDelay, timerDraw);
         snakeAnimation.start();
     }
+
+    public void drawBorder(Graphics g)
+    {
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,imageWidth, 5);
+        g.fillRect(0,imageHeight,imageWidth, 5);
+        g.fillRect(0,0,5, imageHeight);
+        g.fillRect(imageWidth,0,5, imageHeight);
+    }
     
     public void paintComponent(Graphics g){
         this.setBackground(Color.white);
-        
+        super.paintComponent(g);
+        drawBorder(g);
         //im ngl i have no idea what this does but seems important
         if (img != null)
             g.drawImage(img, 0, 0, this);
