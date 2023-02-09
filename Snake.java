@@ -4,8 +4,9 @@ import java.awt.image.*;
 import java.awt.event.*;
 import java.lang.*;
 import java.util.Random;
+import java.util.ArrayList;
 
-public class Snake extends JPanel{
+public class Snake extends JPanel implements MouseListener{
     private static int imageWidth = 700;
     private static int imageHeight = 700;
     private BufferedImage img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
@@ -13,10 +14,12 @@ public class Snake extends JPanel{
     private Random rand = new Random();
     //Tail Stuff
     private int tailDuration = 0;
-    private static int tailMax = 5;
+    private static int tailMax = 10;
     private int[] segmentX = new int[tailMax+1];
     private int[] segmentY = new int[tailMax+1];
-
+    //Food Stuff
+    private ArrayList<Integer> foodX = new ArrayList<Integer>();
+    private ArrayList<Integer> foodY = new ArrayList<Integer>();
     
     //speed of the snake
     private int snakeDelay = 500;
@@ -30,6 +33,7 @@ public class Snake extends JPanel{
     
     public Snake()
     {  
+        addMouseListener(this);
         /*
         this button would be like the add button i just needed
         it to test if this works for now
@@ -42,7 +46,6 @@ public class Snake extends JPanel{
             }
         });
         this.add(addSnake);
-        
         /*
         this is the background for the snakes to be drawn on. It has to be a 
         buffered image to show it as animating.
@@ -67,8 +70,8 @@ public class Snake extends JPanel{
                 Graphics2D g2 = img.createGraphics();
                 //changes the positioning of the snake, basically
                 //it's next moves
-                int newX = startX + (int) ((Math.round(Math.random())*2-1) * 5);
-                int newY = startY + (int) ((Math.round(Math.random())*2-1) * 5);
+                int newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                int newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
 
                 //Keeps track of Tail Segments.
                 if(tailDuration < tailMax) {
@@ -120,6 +123,23 @@ public class Snake extends JPanel{
         g.fillRect(0,0,5, imageHeight);
         g.fillRect(imageWidth,0,5, imageHeight);
     }
+
+    public void mouseClicked(MouseEvent e) {
+        Graphics g = getGraphics();
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        if (mouseX<imageWidth-10 && mouseY<imageHeight-10)  {
+            g.setColor(Color.RED);
+            foodX.add(mouseX);
+            foodY.add(mouseY);
+            g.fillRect(mouseX,mouseY,10,10);
+        }
+    }
+
+    public void mouseEntered(MouseEvent e) {}  
+    public void mouseExited(MouseEvent e) {}  
+    public void mousePressed(MouseEvent e) {}  
+    public void mouseReleased(MouseEvent e) {} 
     
     public void paintComponent(Graphics g){
         this.setBackground(Color.white);
