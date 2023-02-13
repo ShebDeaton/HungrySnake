@@ -12,6 +12,7 @@ public class Snake extends JPanel implements MouseListener{
     private BufferedImage img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     private Timer snakeAnimation;
     private Random rand = new Random();
+    private int firstSpawn = 0;
     //Tail Stuff
     private int tailDuration = 0;
     private static int tailMax = 10;
@@ -46,6 +47,7 @@ public class Snake extends JPanel implements MouseListener{
             }
         });
         this.add(addSnake);
+        drawSnake();
         /*
         this is the background for the snakes to be drawn on. It has to be a 
         buffered image to show it as animating.
@@ -68,10 +70,17 @@ public class Snake extends JPanel implements MouseListener{
         ActionListener timerDraw = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Graphics2D g2 = img.createGraphics();
+
+                if(firstSpawn == 0) {
+                    startX = 350;
+                    startY = 350;
+                    firstSpawn++;
+                } 
+                
                 //changes the positioning of the snake, basically
                 //it's next moves
                 int newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                int newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                int newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());                
 
                 //Keeps track of Tail Segments.
                 if(tailDuration < tailMax) {
