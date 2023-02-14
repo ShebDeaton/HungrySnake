@@ -138,10 +138,8 @@ public class Snake extends JPanel implements MouseListener{
         int mouseX = e.getX();
         int mouseY = e.getY();
         if (mouseX<imageWidth-10 && mouseY<imageHeight-10)  {
-            g.setColor(Color.RED);
             foodX.add(mouseX);
             foodY.add(mouseY);
-            g.fillRect(mouseX,mouseY,10,10);
         }
     }
 
@@ -149,11 +147,19 @@ public class Snake extends JPanel implements MouseListener{
     public void mouseExited(MouseEvent e) {}  
     public void mousePressed(MouseEvent e) {}  
     public void mouseReleased(MouseEvent e) {} 
+
+    public void drawFood(Graphics g) {
+        g.setColor(Color.RED);
+        for (int i=0;i<foodX.size();i++){
+            g.fillRect(foodX.get(i),foodY.get(i),10,10);
+        }
+    }
     
     public void paintComponent(Graphics g){
         this.setBackground(Color.white);
         super.paintComponent(g);
         drawBorder(g);
+        drawFood(g);
         //im ngl i have no idea what this does but seems important
         if (img != null)
             g.drawImage(img, 0, 0, this);
