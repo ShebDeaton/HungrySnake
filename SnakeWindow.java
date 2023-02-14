@@ -8,25 +8,25 @@ public class SnakeWindow extends JFrame{
     JPanel eastPan, snakePan;
 
     public SnakeWindow() {
-        //Snake trialSnake = new Snake();
+        Snake trialSnake = new Snake();
         this.setTitle("Hungry Snake Project");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //this.add(trialSnake, BorderLayout.WEST);
+        this.setLayout(new GridLayout(1,2));
+        this.add(trialSnake);
         this.setSize(SnakeWindowWidth,SnakeWindowHeight);
-        this.setLayout(new BorderLayout());
         windowMenus();
         initOptions();
-        initSnake();
+        //initSnake();
         this.setVisible(true);
     }
     
-    public void initSnake() {
+    /* public void initSnake() {
         snakePan = new JPanel();
         snakePan.setSize(700,700);
         Snake trialSnake = new Snake();
         snakePan.add(trialSnake);
         this.add(snakePan, BorderLayout.WEST);
-    }
+    } */
 
     public void windowMenus()
     {
@@ -48,7 +48,8 @@ public class SnakeWindow extends JFrame{
 
     public void initOptions() {
         eastPan = new JPanel();
-        this.add(eastPan, BorderLayout.EAST);
+        eastPan.setBackground(Color.blue);
+        this.add(eastPan);
 
         JCheckBox speedBox = new JCheckBox("Speed");
 
