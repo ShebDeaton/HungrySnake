@@ -20,7 +20,7 @@ public class SnakeWindow extends JFrame{
         main = new JPanel();
         main.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.insets = new Insets(2,2,2,2);
+        c.insets = new Insets(1,1,1,1);
         c.gridx = 0;
         c.gridy = 0;
         c.ipadx = 700;
@@ -32,7 +32,7 @@ public class SnakeWindow extends JFrame{
         windowMenus();
         initOptions();
 
-        this.getContentPane().add(main);
+        this.add(main);
         this.setSize(SnakeWindowWidth,SnakeWindowHeight);
         //initSnake();
         this.setVisible(true);
@@ -66,14 +66,15 @@ public class SnakeWindow extends JFrame{
 
     public void initOptions() {
         eastPan = new JPanel();
-        eastPan.setBackground(Color.blue);
         c.gridx = 1;
-        c.ipadx = 20;
+        c.ipadx = 40;
         c.ipady = 20;
 
         JCheckBox speedBox = new JCheckBox("Speed");
+        JCheckBox sizeBox = new JCheckBox("Size");
 
         eastPan.add(speedBox);
+        eastPan.add(sizeBox);
         main.add(eastPan, c);
     }
 
