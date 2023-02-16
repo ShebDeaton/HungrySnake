@@ -39,14 +39,19 @@ public class Snake extends JPanel implements MouseListener{
         this button would be like the add button i just needed
         it to test if this works for now
         */
-        JButton addSnake = new JButton("Add");
+
+        //
+        //COMMENTED OUT: I turned the add button into the generate button at the end of
+        //the customizations section
+        //
+        /* JButton addSnake = new JButton("Add");
         addSnake.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tailDuration = 0;
                 drawSnake();
             }
         });
-        this.add(addSnake);
+        this.add(addSnake); */
         drawSnake();
         /*
         this is the background for the snakes to be drawn on. It has to be a 
@@ -54,8 +59,8 @@ public class Snake extends JPanel implements MouseListener{
         */
         img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     }
-    
-    private void drawSnake() {
+
+    public void drawSnake() {
         /*
         Pauses the drawing of the previous snake when u click add again, I dont
         know how to keep the previous one going but we'll figure it out.
