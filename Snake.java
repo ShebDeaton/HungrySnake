@@ -71,6 +71,11 @@ public class Snake extends JPanel implements MouseListener{
         
         startX = rand.nextInt(imageWidth);
         startY = rand.nextInt(imageHeight);
+        //Random number generated initially for direction later
+        //8 for cardinal directions
+        int direction = rand.nextInt(8);
+        int newX;
+        int newY;
         
         ActionListener timerDraw = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -81,11 +86,57 @@ public class Snake extends JPanel implements MouseListener{
                     startY = 350;
                     firstSpawn++;
                 } 
-                
+                int newX;
+                int newY;
                 //changes the positioning of the snake, basically
                 //it's next moves
-                int newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                int newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());                
+                //Use a switch to keep direction consistent while still being random.
+                switch (direction) {
+                    case 0:
+                        //north
+                        newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                        newY = startY + (int) ((-1)*size/2 * Math.random()); 
+                        break;
+                    case 1:
+                        //north-east
+                        newX = startX + (int) (size/2 * Math.random());
+                        newY = startY + (int) ((-1)*size/2 * Math.random());
+                        break;
+                    case 2:
+                        //east
+                        newX = startX + (int) (size/2 * Math.random());
+                        newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                        break;
+                    case 3:
+                        //south-east
+                        newX = startX + (int) (size/2 * Math.random());
+                        newY = startY + (int) (size/2 * Math.random());
+                        break;
+                    case 4:
+                        //south
+                        newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                        newY = startY + (int) (size/2 * Math.random()); 
+                        break;
+                    case 5:
+                        //south-west
+                        newX = startX + (int) ((-1)*size/2 * Math.random());
+                        newY = startY + (int) (size/2 * Math.random());
+                       break;
+                    case 6:
+                        //west
+                        newX = startX + (int) ((-1)*size/2 * Math.random());
+                        newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                        break;
+                    case 7:
+                        //north-west
+                        newX = startX + (int) ((-1)*size/2 * Math.random());
+                        newY = startY + (int) ((-1)*size/2 * Math.random());
+                        break;
+                    default: 
+                        newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
+                        newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());  
+                        break;
+                }              
 
                 //Keeps track of Tail Segments.
                 if(tailDuration < tailMax) {
