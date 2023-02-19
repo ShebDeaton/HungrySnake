@@ -13,6 +13,7 @@ public class Snake extends JPanel implements MouseListener{
     private Timer snakeAnimation;
     private Random rand = new Random();
     private int firstSpawn = 0;
+    private int direction;
     //Tail Stuff
     private int tailDuration = 0;
     private static int tailMax = 10;
@@ -73,7 +74,7 @@ public class Snake extends JPanel implements MouseListener{
         startY = rand.nextInt(imageHeight);
         //Random number generated initially for direction later
         //8 for cardinal directions
-        int direction = rand.nextInt(8);
+        direction = rand.nextInt(8);
         int newX;
         int newY;
         
@@ -136,7 +137,42 @@ public class Snake extends JPanel implements MouseListener{
                         newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
                         newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());  
                         break;
-                }              
+                }   
+                
+                int[] directionOptions = new int[3];
+                int choice = rand.nextInt(3);
+                //Check the left border
+                if (newX < 0+size) {
+                    //Set direction to east(2), north east(1), or south east(3)
+                    directionOptions[0] = 2;
+                    directionOptions[1] = 1;
+                    directionOptions[2] = 3;
+                    direction = directionOptions[choice];
+                }
+                //Check the right border
+                if (newX > imageWidth-size) {
+                    //Set direction to west(6), north west(7), or south west(5)
+                    directionOptions[0] = 6;
+                    directionOptions[1] = 7;
+                    directionOptions[2] = 5;
+                    direction = directionOptions[choice];
+                }
+                //Check the top border
+                if (newY < 0+size) {
+                    //Set direction to south(4), south west(5), or south east(3)
+                    directionOptions[0] = 4;
+                    directionOptions[1] = 5;
+                    directionOptions[2] = 3;
+                    direction = directionOptions[choice];
+                }
+                //Check the bottom border
+                if (newY > imageHeight-size) {
+                    //Set direction to north(0), north west(7), or north east(1)
+                    directionOptions[0] = 0;
+                    directionOptions[1] = 7;
+                    directionOptions[2] = 1;
+                    direction = directionOptions[choice];
+                }
 
                 //Keeps track of Tail Segments.
                 if(tailDuration < tailMax) {
