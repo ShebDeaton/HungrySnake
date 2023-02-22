@@ -85,9 +85,16 @@ public class Snake extends JPanel implements MouseListener{
         
         startX = rand.nextInt(imageWidth);
         startY = rand.nextInt(imageHeight);
-        //Random number generated initially for direction later
-        //8 for cardinal directions
-        direction = rand.nextInt(8);
+        //Check if there is food already.
+        if (foodX.size() > 0) {
+            // Head to the food.
+            direction = 8;
+        }
+        else {
+            //Random number generated initially for direction later
+            //8 for cardinal directions
+            direction = rand.nextInt(8);
+        }
         int newX;
         int newY;
         
@@ -145,6 +152,48 @@ public class Snake extends JPanel implements MouseListener{
                         //north-west
                         newX = startX + (int) ((-1)*size/2 * Math.random());
                         newY = startY + (int) ((-1)*size/2 * Math.random());
+                        break;
+                    case 8:
+                        //to the oldest food
+                        int focusFoodX = foodX.get(0);
+                        int focusFoodY = foodY.get(0);
+                        //Compare startX to focusFoodX
+                        if (startX > focusFoodX) {
+                            //If right of food, go left.
+                            newX = startX + (int) ((-1)*size/2 * Math.random());                         
+                        }
+                        else if (startX == focusFoodX) {
+                            //If on the same X-level, don't change.
+                            newX = startX;
+                        }
+                        else {
+                            //If left of food, go right.
+                            newX = startX + (int) (size/2 * Math.random());
+                        }
+                        //Compare startY to focusFoodY
+                        if (startY > focusFoodY) {
+                            //If below food, go up
+                            newY = startY + (int) ((-1)* size/2 * Math.random()); 
+                        }
+                        else if (startY == focusFoodY) {
+                            //If on the same Y-level, don't change.
+                            newY = startY;
+                        }
+                        else {
+                            //If above the food, go down.
+                            newY = startY + (int) (size/2 * Math.random()); 
+                        }                       
+                        //Check if the food has been touched
+                        if ((Math.abs(newX - focusFoodX) <= size) && (Math.abs(newY - focusFoodY) <= size)) {
+                            //Delete Food
+                            foodX.remove(0);
+                            foodY.remove(0);
+                            //Check if the food list is empty
+                            if (foodX.size() == 0) {
+                                //Change the direciton randomly if so.
+                                direction = rand.nextInt(8);
+                            }
+                        }
                         break;
                     default: 
                         newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
@@ -245,6 +294,7 @@ public class Snake extends JPanel implements MouseListener{
         if (mouseX<imageWidth-10 && mouseY<imageHeight-10)  {
             foodX.add(mouseX);
             foodY.add(mouseY);
+            direction = 8;
         }
     }
 
