@@ -23,15 +23,28 @@ public class Snake extends JPanel implements MouseListener{
     private ArrayList<Integer> foodX = new ArrayList<Integer>();
     private ArrayList<Integer> foodY = new ArrayList<Integer>();
     
-    //speed of the snake
-    private int snakeDelay = 500;
+    
     
     //Starting coordinates of the snake
     int startX;
     int startY;
-    
-    //radius of body of snake
-    int size = 15;
+
+    /*
+     * Changeable Attributes of the Snake
+     */
+        //radius of body of snake
+        int speedSize = 15;
+
+        //speed of the snake
+        private int snakeDelay = 500;
+
+        //Color of the snake head
+        Color headColor = Color.red;
+
+        //Color of the snake body
+        Color tailColor = Color.blue;
+
+
     
     public Snake()
     {  
@@ -53,7 +66,7 @@ public class Snake extends JPanel implements MouseListener{
             }
         });
         this.add(addSnake); */
-        drawSnake();
+        drawSnake(headColor, tailColor, speedSize, snakeDelay);
         /*
         this is the background for the snakes to be drawn on. It has to be a 
         buffered image to show it as animating.
@@ -61,7 +74,7 @@ public class Snake extends JPanel implements MouseListener{
         img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     }
 
-    public void drawSnake() {
+    public void drawSnake(Color head, Color tail, int size, int snakeDelay) {
         /*
         Pauses the drawing of the previous snake when u click add again, I dont
         know how to keep the previous one going but we'll figure it out.
@@ -86,7 +99,7 @@ public class Snake extends JPanel implements MouseListener{
                     startX = 350;
                     startY = 350;
                     firstSpawn++;
-                } 
+                }
                 int newX;
                 int newY;
                 //changes the positioning of the snake, basically
@@ -96,7 +109,7 @@ public class Snake extends JPanel implements MouseListener{
                     case 0:
                         //north
                         newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                        newY = startY + (int) ((-1)*size/2 * Math.random()); 
+                        newY = startY + (int) ((-1)* size/2 * Math.random()); 
                         break;
                     case 1:
                         //north-east
@@ -196,11 +209,11 @@ public class Snake extends JPanel implements MouseListener{
                 }
 
                 //Different color for the tail to see
-                g2.setColor(Color.green);
+                g2.setColor(tail);
                 g2.fillOval(startX, startY, size, size);
 
                 //temporary color of this snake
-                g2.setColor(Color.blue);
+                g2.setColor(head);
                 //the base shape of the snake
                 g2.fillOval(newX, newY, size, size);
 

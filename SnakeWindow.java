@@ -1,15 +1,25 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.Random;
 
 public class SnakeWindow extends JFrame{
-    private int SnakeWindowWidth = 1000;
+    private int SnakeWindowWidth = 1200;
     private int SnakeWindowHeight = 1000;
     JPanel eastPan, snakePan;
     Snake trialSnake;
 
     JPanel main;
     GridBagConstraints c;
+
+    Random rand = new Random();
+    int headNum = 0;
+    int tailNum = 1;
+
+    Color[] possibleColors = {Color.blue, Color.red, Color.black, Color.green, Color.yellow, Color.green, Color.MAGENTA};
+
+    int size = 15;
+    int speed = 500;
 
 
     public SnakeWindow() {
@@ -82,13 +92,43 @@ public class SnakeWindow extends JFrame{
         mainLabel.setFont(new Font("Serif", Font.BOLD, 19));
 
         JCheckBox speedBox = new JCheckBox("Speed");
+        speedBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                speed = rand.nextInt(100,500);
+            }
+        });
+
         JCheckBox sizeBox = new JCheckBox("Size");
+        sizeBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                size = rand.nextInt(15, 30);
+            }
+        });
+
         JCheckBox colorBox = new JCheckBox("Color");
+        colorBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                headNum = rand.nextInt(7);
+                tailNum = rand.nextInt(7);
+
+                while (tailNum == headNum){
+                    tailNum = rand.nextInt(7);
+                }
+            }
+        });
 
         JButton genSnake = new JButton("Generate");
         genSnake.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                trialSnake.drawSnake();
+                trialSnake.drawSnake(possibleColors[headNum], possibleColors[tailNum], size, speed);
+                //back to defaults
+                colorBox.setSelected(false);
+                headNum = 0;
+                tailNum = 1;
+                sizeBox.setSelected(false);
+                size = 15;
+                speedBox.setSelected(false);
+                speed = 500;
             }
         });
 
