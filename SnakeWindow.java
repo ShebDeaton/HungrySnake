@@ -101,7 +101,7 @@ public class SnakeWindow extends JFrame{
         JCheckBox sizeBox = new JCheckBox("Size");
         sizeBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                size = rand.nextInt(15, 30);
+                size = rand.nextInt(9, 30);
             }
         });
 
