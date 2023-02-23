@@ -95,13 +95,12 @@ public class Snake extends JPanel implements MouseListener{
             //8 for cardinal directions
             direction = rand.nextInt(8);
         }
-        int newX;
-        int newY;
-        
+
         ActionListener timerDraw = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Graphics2D g2 = img.createGraphics();
 
+                //Spawn the initial snake.
                 if(firstSpawn == 0) {
                     startX = 350;
                     startY = 350;
@@ -162,10 +161,10 @@ public class Snake extends JPanel implements MouseListener{
                             //If right of food, go left.
                             newX = startX + (int) ((-1)*size/2 * Math.random());                         
                         }
-                        else if (startX == focusFoodX) {
+                        /*else if (startX == focusFoodX) {
                             //If on the same X-level, don't change.
                             newX = startX;
-                        }
+                        }*/
                         else {
                             //If left of food, go right.
                             newX = startX + (int) (size/2 * Math.random());
@@ -175,10 +174,10 @@ public class Snake extends JPanel implements MouseListener{
                             //If below food, go up
                             newY = startY + (int) ((-1)* size/2 * Math.random()); 
                         }
-                        else if (startY == focusFoodY) {
+                        /*else if (startY == focusFoodY) {
                             //If on the same Y-level, don't change.
                             newY = startY;
-                        }
+                        }*/
                         else {
                             //If above the food, go down.
                             newY = startY + (int) (size/2 * Math.random()); 
@@ -186,6 +185,7 @@ public class Snake extends JPanel implements MouseListener{
                         //Check if the food has been touched
                         if ((Math.abs(newX - focusFoodX) <= size) && (Math.abs(newY - focusFoodY) <= size)) {
                             //Delete Food
+                            g2.fillRect(foodX.get(0),foodY.get(0),10,10);
                             foodX.remove(0);
                             foodY.remove(0);
                             //Check if the food list is empty
@@ -273,7 +273,8 @@ public class Snake extends JPanel implements MouseListener{
                 repaint();
             }
         };
-        
+        //Turn this comment off and he'll go SUPER fast.
+        //snakeDelay = 0;
         snakeAnimation = new Timer(snakeDelay, timerDraw);
         snakeAnimation.start();
     }
@@ -281,10 +282,13 @@ public class Snake extends JPanel implements MouseListener{
     public void drawBorder(Graphics g)
     {
         g.setColor(Color.BLACK);
-        g.fillRect(0,0,imageWidth, 5);
-        g.fillRect(0,imageHeight,imageWidth, 5);
-        g.fillRect(0,0,5, imageHeight);
-        g.fillRect(imageWidth,0,5, imageHeight);
+        int borderThickness = 5;
+        int horziontalBorderWidth = imageWidth;
+        int verticalBorderHeight = imageHeight;
+        g.fillRect(0,0,horziontalBorderWidth, borderThickness);
+        g.fillRect(0,imageHeight,horziontalBorderWidth, borderThickness);
+        g.fillRect(0,0,borderThickness, verticalBorderHeight);
+        g.fillRect(imageWidth,0,borderThickness, verticalBorderHeight);
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -294,6 +298,7 @@ public class Snake extends JPanel implements MouseListener{
         if (mouseX<imageWidth-10 && mouseY<imageHeight-10)  {
             foodX.add(mouseX);
             foodY.add(mouseY);
+            //Set the snake's direction to food.
             direction = 8;
         }
     }
@@ -303,7 +308,8 @@ public class Snake extends JPanel implements MouseListener{
     public void mousePressed(MouseEvent e) {}  
     public void mouseReleased(MouseEvent e) {} 
 
-    public void drawFood(Graphics g) {
+    public void drawFood() {
+        Graphics2D g = img.createGraphics();
         g.setColor(Color.RED);
         for (int i=0;i<foodX.size();i++){
             g.fillRect(foodX.get(i),foodY.get(i),10,10);
@@ -314,7 +320,7 @@ public class Snake extends JPanel implements MouseListener{
         this.setBackground(Color.white);
         super.paintComponent(g);
         drawBorder(g);
-        drawFood(g);
+        drawFood();
         //im ngl i have no idea what this does but seems important
         if (img != null)
             g.drawImage(img, 0, 0, this);
