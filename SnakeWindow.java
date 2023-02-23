@@ -67,7 +67,7 @@ public class SnakeWindow extends JFrame{
         JCheckBox speedBox = new JCheckBox("Speed");
         speedBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                speed = rand.nextInt(1,5) * 100;
+                speed = rand.nextInt(0,3) * 100;
             }
         });
 

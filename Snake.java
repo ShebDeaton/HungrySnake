@@ -16,7 +16,7 @@ public class Snake extends JPanel implements MouseListener{
     private int direction;
     //Tail Stuff
     private int tailDuration = 0;
-    private static int tailMax = 10;
+    private static int tailMax = 15;
     private int[] segmentX = new int[tailMax+1];
     private int[] segmentY = new int[tailMax+1];
     //Food Stuff
