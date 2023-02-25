@@ -106,7 +106,7 @@ public class Snake extends JPanel implements MouseListener{
                         curSnake.changeDirection(8);
                         if ((Math.abs(curSnake.getX() - foodX.get(0)) <= curSnake.getSize()) && (Math.abs(curSnake.getY() - foodY.get(0))) <= curSnake.getSize()) {
                             //Delete Food
-                            g2.setColor(Color.yellow);
+                            g2.setColor(Color.white);
                             g2.fillRect(foodX.get(0),foodY.get(0),10,10);
                             foodX.remove(0);
                             foodY.remove(0);
