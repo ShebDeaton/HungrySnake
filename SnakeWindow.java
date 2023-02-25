@@ -67,14 +67,14 @@ public class SnakeWindow extends JFrame{
         JCheckBox speedBox = new JCheckBox("Speed");
         speedBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                speed = rand.nextInt(0,3) * 100;
+               // speed = rand.nextInt(0,3) * 100;
             }
         });
 
         JCheckBox sizeBox = new JCheckBox("Size");
         sizeBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                size = rand.nextInt(9, 30);
+               // size = rand.nextInt(9, 30);
             }
         });
 
@@ -93,7 +93,8 @@ public class SnakeWindow extends JFrame{
         JButton genSnake = new JButton("Generate");
         genSnake.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                trialSnake.drawSnake(possibleColors[headNum], possibleColors[tailNum], size, speed);
+                trialSnake.drawSnake2(possibleColors[headNum], possibleColors[tailNum], size, speed);
+                trialSnake.drawSnakes();
                 //back to defaults
                 colorBox.setSelected(false);
                 headNum = 0;

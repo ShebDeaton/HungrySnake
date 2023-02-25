@@ -13,15 +13,18 @@ public class Snake extends JPanel implements MouseListener{
     private Timer snakeAnimation;
     private Random rand = new Random();
     private int firstSpawn = 0;
-    private int direction;
+    public int direction;
     //Tail Stuff
     private int tailDuration = 0;
     private static int tailMax = 15;
     private int[] segmentX = new int[tailMax+1];
     private int[] segmentY = new int[tailMax+1];
     //Food Stuff
-    private ArrayList<Integer> foodX = new ArrayList<Integer>();
-    private ArrayList<Integer> foodY = new ArrayList<Integer>();
+    public ArrayList<Integer> foodX = new ArrayList<Integer>();
+    public ArrayList<Integer> foodY = new ArrayList<Integer>();
+    public ArrayList<SnakeThing> snakeList = new ArrayList<SnakeThing>();
+    private boolean resetSnakes = false;
+    private boolean flushSnakes = false;
     
     
     
@@ -66,7 +69,8 @@ public class Snake extends JPanel implements MouseListener{
             }
         });
         this.add(addSnake); */
-        drawSnake(headColor, tailColor, speedSize, snakeDelay);
+        //drawSnake(headColor,tailColor,speedSize,snakeDelay);
+
         /*
         this is the background for the snakes to be drawn on. It has to be a 
         buffered image to show it as animating.
@@ -74,11 +78,135 @@ public class Snake extends JPanel implements MouseListener{
         img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     }
 
+    public void drawSnake2(Color head, Color tail, int size, int snakeDelay) {
+        //Make a snake.
+        SnakeThing snake = new SnakeThing(head, tail, size, snakeDelay);
+        //Add it to a list of snakes
+        snakeList.add(snake);
+    }
+
+    public void drawSnakes() {
+        if (snakeAnimation != null && snakeAnimation.isRunning()){
+            snakeAnimation.stop();
+        }
+        
+        Graphics2D g2 = img.createGraphics();
+        ActionListener drawSnakes = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //For every snake in the list
+                for(int i=0;i<snakeList.size();i++)
+                {
+                    //Deal with the current snake
+                    SnakeThing curSnake = snakeList.get(i);
+                    //Update the snake's food list.
+                    curSnake.refreshFood(foodX,foodY);
+                    //If the food list isn't empty
+                    if(foodX.size() > 0) {
+                        //Check if a snake touch's food
+                        curSnake.changeDirection(8);
+                        if ((Math.abs(curSnake.getX() - foodX.get(0)) <= curSnake.getSize()) && (Math.abs(curSnake.getY() - foodY.get(0))) <= curSnake.getSize()) {
+                            //Delete Food
+                            g2.setColor(Color.yellow);
+                            g2.fillRect(foodX.get(0),foodY.get(0),10,10);
+                            foodX.remove(0);
+                            foodY.remove(0);
+                        }
+                        //Check if the food list is empty again
+                        if (foodX.size() == 0) {
+                            //Change the direciton randomly if so.
+                            int randDir = rand.nextInt(8);
+                            curSnake.changeDirection(randDir);
+                            resetSnakes = true;
+                        }
+                    }
+                    //Check if the food list is empty
+                    if(resetSnakes == true) {
+                        //Change the direciton randomly if so.
+                        int randDir = rand.nextInt(8);
+                        curSnake.changeDirection(randDir);
+                        if((i==snakeList.size()-1) && flushSnakes == true){
+                            flushSnakes = false;
+                            resetSnakes = false;
+                        }
+                        if(i==snakeList.size()-1 && resetSnakes == true){
+                            flushSnakes = true;
+                        }
+                        continue;
+                    }
+
+                    //Check the borders
+                    int[] directionOptions = new int[3];
+                    int choice = rand.nextInt(3);
+                    //Check the left border
+                    if (curSnake.getX() < 0+curSnake.getSize()) {
+                        //Set direction to east(2), north east(1), or south east(3)
+                        directionOptions[0] = 2;
+                        directionOptions[1] = 1;
+                        directionOptions[2] = 3;
+                        curSnake.changeDirection(directionOptions[choice]);
+                    }
+                    //Check the right border
+                    if (curSnake.getX() > imageWidth-curSnake.getSize()) {
+                        //Set direction to west(6), north west(7), or south west(5)
+                        directionOptions[0] = 6;
+                        directionOptions[1] = 7;
+                        directionOptions[2] = 5;
+                        curSnake.changeDirection(directionOptions[choice]);
+                    }
+                    //Check the top border
+                    if (curSnake.getY() < 0+curSnake.getSize()) {
+                        //Set direction to south(4), south west(5), or south east(3)
+                        directionOptions[0] = 4;
+                        directionOptions[1] = 5;
+                        directionOptions[2] = 3;
+                        curSnake.changeDirection(directionOptions[choice]);
+                    }
+                    //Check the bottom border
+                    if (curSnake.getY() > imageHeight-curSnake.getSize()) {
+                        //Set direction to north(0), north west(7), or north east(1)
+                        directionOptions[0] = 0;
+                        directionOptions[1] = 7;
+                        directionOptions[2] = 1;
+                        curSnake.changeDirection(directionOptions[choice]);
+                    }
+
+                    //Check if the snake is full
+                    if(curSnake.isFull()==true){
+                        g2.setColor(Color.white);
+                        g2.fillOval(curSnake.getSegmentX()[0], curSnake.getSegmentY()[0], curSnake.getSize(), curSnake.getSize());
+                    }
+                    //Paint the snake.
+                    for(int j=1;j<curSnake.getSegmentX().length;j++){
+                        //Different color for the tail to see
+                        g2.setColor(curSnake.getTailColor());
+                        g2.fillOval(curSnake.getSegmentX()[j], curSnake.getSegmentY()[j], curSnake.getSize(), curSnake.getSize());
+
+                        //temporary color of this snake
+                        g2.setColor(curSnake.getHeadColor());
+                        //the base shape of the snake
+                        g2.fillOval(curSnake.getX(), curSnake.getY(), curSnake.getSize(), curSnake.getSize());
+                    }
+
+                    curSnake.incrementSnake();
+                    repaint();
+                }
+            }
+        };
+        //Check every second...
+        snakeAnimation = new Timer(0, drawSnakes);
+        snakeAnimation.start();
+    }
+/* 
     public void drawSnake(Color head, Color tail, int size, int snakeDelay) {
-        /*
-        Pauses the drawing of the previous snake when u click add again, I dont
-        know how to keep the previous one going but we'll figure it out.
-        */
+        Graphics2D g2 = img.createGraphics();
+        //Paint the snake.
+        g2.setColor(Color.red);
+        //the base shape of the snake
+        g2.fillOval(350, 350, 50, 50);
+        repaint();
+       //Pauses the drawing of the previous snake when u click add again, I dont
+       // know how to keep the previous one going but we'll figure it out.
+        
         if (snakeAnimation != null && snakeAnimation.isRunning()){
             snakeAnimation.stop();
         }
@@ -100,12 +228,6 @@ public class Snake extends JPanel implements MouseListener{
             public void actionPerformed(ActionEvent e) {
                 Graphics2D g2 = img.createGraphics();
 
-                //Spawn the initial snake.
-                if(firstSpawn == 0) {
-                    startX = 350;
-                    startY = 350;
-                    firstSpawn++;
-                }
                 int newX;
                 int newY;
                 //changes the positioning of the snake, basically
@@ -161,10 +283,6 @@ public class Snake extends JPanel implements MouseListener{
                             //If right of food, go left.
                             newX = startX + (int) ((-1)*size/2 * Math.random());                         
                         }
-                        /*else if (startX == focusFoodX) {
-                            //If on the same X-level, don't change.
-                            newX = startX;
-                        }*/
                         else {
                             //If left of food, go right.
                             newX = startX + (int) (size/2 * Math.random());
@@ -174,10 +292,6 @@ public class Snake extends JPanel implements MouseListener{
                             //If below food, go up
                             newY = startY + (int) ((-1)* size/2 * Math.random()); 
                         }
-                        /*else if (startY == focusFoodY) {
-                            //If on the same Y-level, don't change.
-                            newY = startY;
-                        }*/
                         else {
                             //If above the food, go down.
                             newY = startY + (int) (size/2 * Math.random()); 
@@ -277,8 +391,8 @@ public class Snake extends JPanel implements MouseListener{
         //snakeDelay = 0;
         snakeAnimation = new Timer(snakeDelay, timerDraw);
         snakeAnimation.start();
-    }
-
+    } 
+*/
     public void drawBorder(Graphics g)
     {
         g.setColor(Color.BLACK);
@@ -298,8 +412,6 @@ public class Snake extends JPanel implements MouseListener{
         if (mouseX<imageWidth-10 && mouseY<imageHeight-10)  {
             foodX.add(mouseX);
             foodY.add(mouseY);
-            //Set the snake's direction to food.
-            direction = 8;
         }
     }
 
