@@ -126,6 +126,11 @@ public class Snake extends JPanel implements MouseListener{
                             foodY.remove(0);
                             //Heal the snake
                             curSnake.healSnake();
+                            //If the snake is dead
+                            if (curSnake.checkPulse() == false){
+                                //Revive it
+                                curSnake.reviveSnake();
+                            }
                         }
                         //Check if the food list is empty again
                         if (foodX.size() == 0) {

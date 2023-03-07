@@ -175,6 +175,10 @@ public class SnakeThing{
         }
     }
 
+    public void reviveSnake(){
+        alive = true;
+    }
+
     public void healSnake(){
         age = age - 100;
     }
