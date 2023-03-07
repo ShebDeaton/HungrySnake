@@ -25,6 +25,7 @@ public class Snake extends JPanel implements MouseListener{
     public ArrayList<SnakeThing> snakeList = new ArrayList<SnakeThing>();
     private boolean resetSnakes = false;
     private boolean flushSnakes = false;
+    private int borderThickness;
     
     private int indSnakeSpeed = 100 ;
     
@@ -90,7 +91,7 @@ public class Snake extends JPanel implements MouseListener{
         if (snakeAnimation != null && snakeAnimation.isRunning()){
             snakeAnimation.stop();
         }
-        
+        repaint();
         Graphics2D g2 = img.createGraphics();
         ActionListener drawSnakes = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -109,7 +110,18 @@ public class Snake extends JPanel implements MouseListener{
                         if ((Math.abs(curSnake.getX() - foodX.get(0)) <= curSnake.getSize()) && (Math.abs(curSnake.getY() - foodY.get(0))) <= curSnake.getSize()) {
                             //Delete Food
                             g2.setColor(Color.white);
-                            g2.fillRect(foodX.get(0),foodY.get(0),10,10);
+                             //Top Bun
+                            g2.fillRect(foodX.get(0)+1,foodY.get(0)-6,11,3);
+                            g2.fillRect(foodX.get(0),foodY.get(0)-3,13,3);
+                            //Tomato
+                            g2.fillRect(foodX.get(0)+1,foodY.get(0),10,1);
+                            //Burger
+                            g2.fillRect(foodX.get(0)+1,foodY.get(0)+1,10,1);
+                            //Lettuce
+                            g2.fillRect(foodX.get(0)+1,foodY.get(0)+2,10,1);
+                            //Bottom Bun
+                            g2.fillRect(foodX.get(0),foodY.get(0)+3,13,3);
+                            g2.fillRect(foodX.get(0)+1,foodY.get(0)+6,11,3);
                             foodX.remove(0);
                             foodY.remove(0);
                         }
@@ -148,7 +160,7 @@ public class Snake extends JPanel implements MouseListener{
                         curSnake.changeDirection(directionOptions[choice]);
                     }
                     //Check the right border
-                    if (curSnake.getX() > imageWidth-curSnake.getSize()) {
+                    if (curSnake.getX() > imageWidth-curSnake.getSize()-borderThickness) {
                         //Set direction to west(6), north west(7), or south west(5)
                         directionOptions[0] = 6;
                         directionOptions[1] = 7;
@@ -164,7 +176,7 @@ public class Snake extends JPanel implements MouseListener{
                         curSnake.changeDirection(directionOptions[choice]);
                     }
                     //Check the bottom border
-                    if (curSnake.getY() > imageHeight-curSnake.getSize()) {
+                    if (curSnake.getY() > imageHeight-curSnake.getSize()-borderThickness) {
                         //Set direction to north(0), north west(7), or north east(1)
                         directionOptions[0] = 0;
                         directionOptions[1] = 7;
@@ -395,23 +407,25 @@ public class Snake extends JPanel implements MouseListener{
         snakeAnimation.start();
     } 
 */
-    public void drawBorder(Graphics g)
+    public void drawBorder()
     {
+        Graphics2D g = img.createGraphics();
         g.setColor(Color.BLACK);
-        int borderThickness = 5;
+        borderThickness = 5;
         int horziontalBorderWidth = imageWidth;
         int verticalBorderHeight = imageHeight;
         g.fillRect(0,0,horziontalBorderWidth, borderThickness);
-        g.fillRect(0,imageHeight,horziontalBorderWidth, borderThickness);
+        g.fillRect(0,imageHeight-borderThickness,horziontalBorderWidth, borderThickness);
         g.fillRect(0,0,borderThickness, verticalBorderHeight);
-        g.fillRect(imageWidth,0,borderThickness, verticalBorderHeight);
+        g.fillRect(imageWidth-borderThickness,0,borderThickness, verticalBorderHeight);
     }
 
     public void mouseClicked(MouseEvent e) {
         Graphics g = getGraphics();
         int mouseX = e.getX();
         int mouseY = e.getY();
-        if (mouseX<imageWidth-10 && mouseY<imageHeight-10)  {
+        if ((mouseX<imageWidth-10 && mouseY<imageHeight-10) && 
+            (mouseX>10 && mouseY>10))  {
             foodX.add(mouseX);
             foodY.add(mouseY);
         }
@@ -424,16 +438,32 @@ public class Snake extends JPanel implements MouseListener{
 
     public void drawFood() {
         Graphics2D g = img.createGraphics();
-        g.setColor(Color.RED);
+        //Draw a hamburger
         for (int i=0;i<foodX.size();i++){
-            g.fillRect(foodX.get(i),foodY.get(i),10,10);
+            //Top Bun
+            g.setColor(new Color(153,102,0));
+            g.fillRect(foodX.get(i)+1,foodY.get(i)-6,11,3);
+            g.fillRect(foodX.get(i),foodY.get(i)-3,13,3);
+            //Tomato
+            g.setColor(Color.RED);
+            g.fillRect(foodX.get(i)+1,foodY.get(i),10,1);
+            //Burger
+            g.setColor(new Color(102,51,0));
+            g.fillRect(foodX.get(i)+1,foodY.get(i)+1,10,1);
+            //Lettuce
+            g.setColor(Color.GREEN);
+            g.fillRect(foodX.get(i)+1,foodY.get(i)+2,10,1);
+            //Bottom Bun
+            g.setColor(new Color(153,102,0));
+            g.fillRect(foodX.get(i),foodY.get(i)+3,13,3);
+            g.fillRect(foodX.get(i)+1,foodY.get(i)+6,11,3);
         }
     }
     
     public void paintComponent(Graphics g){
         this.setBackground(Color.white);
         super.paintComponent(g);
-        drawBorder(g);
+        drawBorder();
         drawFood();
         //im ngl i have no idea what this does but seems important
         if (img != null)
