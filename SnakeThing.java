@@ -48,7 +48,7 @@ public class SnakeThing{
             //Head to food
             direction = 8;
         }
-            else {
+        else {
             //Move in a random direction
             direction = rand.nextInt(8);
         }
@@ -233,6 +233,11 @@ public class SnakeThing{
     public int getSize(){
         return snakeSize;
     }
+
+    public int getSpeed() {
+        return snakeSpeed;
+    }
+
     //Get the latest list of food locations.
     public void refreshFood(ArrayList<Integer> curFoodX, ArrayList<Integer>curFoodY){
         foodX = curFoodX;

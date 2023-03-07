@@ -17,9 +17,14 @@ public class SnakeWindow extends JFrame{
     int tailNum = 1;
 
     Color[] possibleColors = {Color.blue, Color.red, Color.black, Color.green, Color.yellow, Color.green, Color.MAGENTA};
+    String[] possibleCStrings = {"Blue", "Red", "black", "green", "yellow", "green", "magenta"};
 
     int size = 15;
-    int speed = 500;
+    int speed = 100;
+
+    String[] snakearr = new String[3];
+    DefaultListModel model = new DefaultListModel();
+    JList snakeBox = new JList(model);
 
 
     public SnakeWindow() {
@@ -67,7 +72,7 @@ public class SnakeWindow extends JFrame{
         JCheckBox speedBox = new JCheckBox("Speed");
         speedBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               speed = rand.nextInt(0,3) * 100;
+               speed = rand.nextInt(0,5) * 100;
             }
         });
 
@@ -90,10 +95,12 @@ public class SnakeWindow extends JFrame{
             }
         });
 
+        String space = "              ";
         JButton genSnake = new JButton("Generate");
         genSnake.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 trialSnake.drawSnake2(possibleColors[headNum], possibleColors[tailNum], size, speed);
+                model.addElement(possibleCStrings[headNum] + space + possibleCStrings[tailNum] + space + size + space + speed);
                 trialSnake.drawSnakes();
                 //back to defaults
                 colorBox.setSelected(false);
@@ -102,10 +109,12 @@ public class SnakeWindow extends JFrame{
                 sizeBox.setSelected(false);
                 size = 15;
                 speedBox.setSelected(false);
-                speed = 500;
+                speed = 100;
+
             }
         });
 
+        JLabel listLabel = new JLabel("Head Color     Tail Color     Size     Speed");
 
         eastPan.add(mainLabel);
         eastPan.add(Box.createHorizontalStrut(10));
@@ -114,6 +123,10 @@ public class SnakeWindow extends JFrame{
         eastPan.add(colorBox);
         eastPan.add(Box.createHorizontalStrut(5));
         eastPan.add(genSnake);
+        eastPan.add(Box.createHorizontalStrut(5));
+        eastPan.add(listLabel);
+        eastPan.add(Box.createHorizontalStrut(5));
+        eastPan.add(snakeBox);
         main.add(eastPan, c);
     }
 
