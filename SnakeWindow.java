@@ -26,6 +26,8 @@ public class SnakeWindow extends JFrame{
     DefaultListModel model = new DefaultListModel();
     JList snakeBox = new JList(model);
 
+    JScrollPane snakePane = new JScrollPane(snakeBox);
+
 
     public SnakeWindow() {
         trialSnake = new Snake();
@@ -61,10 +63,10 @@ public class SnakeWindow extends JFrame{
 
     public void initOptions() {
         eastPan = new JPanel();
-        eastPan.setLayout(new GridLayout(10,1));
+        eastPan.setLayout(new GridLayout(11,1));
         c.gridx = 2;
         c.ipadx = 80;
-        c.ipady = 20;
+        c.ipady = 120;
 
         JLabel mainLabel = new JLabel("CUSTOMIZATIONS:");
         mainLabel.setFont(new Font("Serif", Font.BOLD, 19));
@@ -114,19 +116,30 @@ public class SnakeWindow extends JFrame{
             }
         });
 
+        JButton remSnake = new JButton("Remove");
+        remSnake.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int byeSnake = snakeBox.getSelectedIndex();
+                model.removeElementAt(byeSnake);
+                trialSnake.snakeList.get(byeSnake).killSnake();
+            }
+        });
+
+
         JLabel listLabel = new JLabel("Head Color     Tail Color     Size     Speed");
 
         eastPan.add(mainLabel);
-        eastPan.add(Box.createHorizontalStrut(10));
+        //eastPan.add(Box.createHorizontalStrut(10));
         eastPan.add(speedBox);
         eastPan.add(sizeBox);
         eastPan.add(colorBox);
-        eastPan.add(Box.createHorizontalStrut(5));
+        //eastPan.add(Box.createHorizontalStrut(5));
         eastPan.add(genSnake);
-        eastPan.add(Box.createHorizontalStrut(5));
+        //eastPan.add(Box.createHorizontalStrut(5));
         eastPan.add(listLabel);
-        eastPan.add(Box.createHorizontalStrut(5));
-        eastPan.add(snakeBox);
+       // eastPan.add(Box.createHorizontalStrut(5));
+        eastPan.add(snakePane);
+        eastPan.add(remSnake);
         main.add(eastPan, c);
     }
 
