@@ -26,6 +26,7 @@ public class Snake extends JPanel implements MouseListener{
     private boolean resetSnakes = false;
     private boolean flushSnakes = false;
     
+    private int indSnakeSpeed = 100 ;
     
     
     //Starting coordinates of the snake
@@ -98,6 +99,7 @@ public class Snake extends JPanel implements MouseListener{
                 {
                     //Deal with the current snake
                     SnakeThing curSnake = snakeList.get(i);
+
                     //Update the snake's food list.
                     curSnake.refreshFood(foodX,foodY);
                     //If the food list isn't empty
@@ -193,7 +195,7 @@ public class Snake extends JPanel implements MouseListener{
             }
         };
         //Check every second...
-        snakeAnimation = new Timer(0, drawSnakes);
+        snakeAnimation = new Timer(100, drawSnakes);
         snakeAnimation.start();
     }
 /* 
