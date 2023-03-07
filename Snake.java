@@ -44,10 +44,10 @@ public class Snake extends JPanel implements MouseListener{
         private int snakeDelay = 500;
 
         //Color of the snake head
-        Color headColor = Color.red;
+        Color headColor = Color.black;
 
         //Color of the snake body
-        Color tailColor = Color.blue;
+        Color tailColor = Color.black;
 
 
     
