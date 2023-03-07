@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class SnakeWindow extends JFrame{
-    private int SnakeWindowWidth = 1200;
+    private int SnakeWindowWidth = 1500;
     private int SnakeWindowHeight = 1000;
     JPanel eastPan, snakePan;
     Snake trialSnake;
@@ -48,7 +48,7 @@ public class SnakeWindow extends JFrame{
         //Trying to create a gap between the customizations and the snake panel
         JPanel gap = new JPanel();
         c.gridx = 1;
-        c.ipadx = 40;
+        c.ipadx = 70;
         main.add(gap, c);
 
         initOptions();
@@ -61,7 +61,7 @@ public class SnakeWindow extends JFrame{
 
     public void initOptions() {
         eastPan = new JPanel();
-        eastPan.setLayout(new GridLayout(7,1));
+        eastPan.setLayout(new GridLayout(10,1));
         c.gridx = 2;
         c.ipadx = 80;
         c.ipady = 20;
