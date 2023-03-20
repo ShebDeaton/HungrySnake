@@ -175,6 +175,7 @@ public class SnakeThing{
         }
     }
 
+
     public void reviveSnake(){
         alive = true;
     }

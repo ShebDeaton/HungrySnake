@@ -143,6 +143,7 @@ public class SnakeWindow extends JFrame{
                 int byeSnake = snakeBox.getSelectedIndex();
                 model.removeElementAt(byeSnake);
                 trialSnake.snakeList.get(byeSnake).killSnake();
+                trialSnake.cleanSnake(byeSnake);
                 trialSnake.snakeList.remove(byeSnake);
             }
         });

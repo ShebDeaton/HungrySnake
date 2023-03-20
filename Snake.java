@@ -217,6 +217,20 @@ public class Snake extends JPanel implements MouseListener{
         snakeAnimation = new Timer(100, drawSnakes);
         snakeAnimation.start();
     }
+
+    public void cleanSnake(int deadSnake){
+        Graphics2D g2 = img.createGraphics();
+        SnakeThing snakeCorpse = snakeList.get(deadSnake);
+        for(int j=0;j<snakeCorpse.getSegmentX().length;j++){
+            //Set the color to white, to match background.
+            g2.setColor(Color.white);
+            //Cover the removed snake.
+            g2.fillOval(snakeCorpse.getSegmentX()[j], snakeCorpse.getSegmentY()[j], snakeCorpse.getSize(), snakeCorpse.getSize());
+            //the base shape of the snake
+            g2.fillOval(snakeCorpse.getX(), snakeCorpse.getY(), snakeCorpse.getSize(), snakeCorpse.getSize());
+            repaint();
+        }
+    }
 /* 
     public void drawSnake(Color head, Color tail, int size, int snakeDelay) {
         Graphics2D g2 = img.createGraphics();
