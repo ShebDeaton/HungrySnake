@@ -17,7 +17,7 @@ public class SnakeWindow extends JFrame{
     int tailNum = 2;
 
     Color[] possibleColors = {Color.blue, Color.red, Color.black, Color.green, Color.yellow, Color.green, Color.MAGENTA};
-    String[] possibleCStrings = {"Blue    ", "Red     ", "black   ", "green   ", "yellow  ", "green   ", "magenta"};
+    String[] possibleCStrings = {"Blue    ", "Red     ", "black   ", "green   ", "yellow  ", "green   ", "magenta", "gradient"};
 
     int size = 15;
     int speed = 100;
@@ -107,12 +107,14 @@ public class SnakeWindow extends JFrame{
         JCheckBox colorBox = new JCheckBox("Color");
         colorBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                headNum = rand.nextInt(7);
-                tailNum = rand.nextInt(7);
+                headNum = rand.nextInt(8);
+                tailNum = rand.nextInt(8);
 
                 while (tailNum == headNum){
-                    tailNum = rand.nextInt(7);
+                    tailNum = rand.nextInt(8);
                 }
+
+                
             }
         });
 

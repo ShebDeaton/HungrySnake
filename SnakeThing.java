@@ -29,6 +29,7 @@ public class SnakeThing{
     private ArrayList<Integer> foodY = new ArrayList<Integer>();
     private boolean isFull = false;
 
+
     public SnakeThing(Color head, Color tail, int size, int speed) {
         //Assign relevant stuff
         headColor = head;
