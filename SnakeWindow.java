@@ -16,7 +16,10 @@ public class SnakeWindow extends JFrame{
     int headNum = 2;
     int tailNum = 2;
 
-    Color[] possibleColors = {Color.blue, Color.red, Color.black, Color.green, Color.yellow, Color.green, Color.MAGENTA};
+    //Color[] possibleColors = {Color.blue, Color.red, Color.black, Color.green, Color.yellow, Color.green, Color.MAGENTA};
+    int[] possibleRedColors = {0     ,      255,          0,            0,          255,        34          , 201};
+    int[] possibleGreenColors = {   0  ,    0,            0,          255,          255,        135        , 12};
+    int[] possibleBlueColors = {255       ,  0,            0,           0,           0,         14          , 201};
     String[] possibleCStrings = {"Blue    ", "Red     ", "black   ", "green   ", "yellow  ", "green   ", "magenta", "gradient"};
 
     int size = 15;
@@ -31,7 +34,11 @@ public class SnakeWindow extends JFrame{
     GridBagLayout overall = new GridBagLayout();
     GridBagLayout options = new GridBagLayout();
 
-    
+    Boolean gradientFlag = false;
+    int gradRed;
+    int gradGreen;
+    int gradBlue;
+
 
 
     public SnakeWindow() {
@@ -114,18 +121,38 @@ public class SnakeWindow extends JFrame{
                     tailNum = rand.nextInt(8);
                 }
 
-                
+                if ((headNum == 8) || (tailNum == 8)) {
+                    gradRed = (rand.nextInt(14) + 3) * 10;
+                    gradGreen = (rand.nextInt(10) + 3) * 10 ;
+                    gradBlue = (rand.nextInt(4) + 3) * 10;
+
+                    if (gradRed == gradGreen && gradRed == gradBlue && gradGreen == gradBlue)
+                    {
+                        while (gradRed == gradGreen)
+                            gradRed = (rand.nextInt(17) + 3) * 10;
+                    }
+                    gradientFlag = true;
+                }
             }
         });
 
-        String space = "              ";
         JButton genSnake = new JButton("Generate");
         genSnake.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                trialSnake.drawSnake2(possibleColors[headNum], possibleColors[tailNum], size, speed);
-                String snakeString = String.format("%-24s%-24s%-24d%-24d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed);
-                //model.addElement(possibleCStrings[headNum] + space + possibleCStrings[tailNum] + space + size + space + speed);
-                model.addElement(snakeString);
+                //trialSnake.drawSnake2(possibleColors[headNum], possibleColors[tailNum], size, speed);
+
+                if (gradientFlag) {
+                    trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, speed, gradientFlag);
+                    String snakeString = String.format("%-24s%-24s%-24d%-24d", possibleCStrings[7], possibleCStrings[7], size, speed);
+                    model.addElement(snakeString);
+                }
+                else {
+                    trialSnake.drawSnake2(possibleRedColors[headNum], possibleGreenColors[headNum], possibleBlueColors[headNum], 
+                            possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, speed, gradientFlag);
+                    String snakeString = String.format("%-24s%-24s%-24d%-24d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed);
+                    model.addElement(snakeString);
+                }
+                
                 trialSnake.drawSnakes();
                 //back to defaults
                 colorBox.setSelected(false);

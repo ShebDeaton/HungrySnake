@@ -29,14 +29,41 @@ public class SnakeThing{
     private ArrayList<Integer> foodY = new ArrayList<Integer>();
     private boolean isFull = false;
 
+    //PRETTY COLORS STUFF
+    private int headRed;
+    private int headGreen;
+    private int headBlue;
+    private int tailRed;
+    private int tailGreen;
+    private int tailBlue;
+    private Boolean gradientFlag;
 
+/* 
     public SnakeThing(Color head, Color tail, int size, int speed) {
         //Assign relevant stuff
         headColor = head;
         tailColor = tail;
         snakeSize = size;
         snakeSpeed = speed;
+        
         //Spawn the snake
+        spawnSnake();
+    }*/
+
+    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag)
+    {
+        headRed = hRed;
+        headGreen = hGreen;
+        headBlue = hBlue;
+        tailRed = tRed;
+        tailGreen = tGreen;
+        tailBlue = tBlue;
+
+        snakeSize = size;
+        snakeSpeed = speed;
+
+        gradientFlag = gFlag;
+
         spawnSnake();
     }
 
@@ -248,5 +275,48 @@ public class SnakeThing{
     public void refreshFood(ArrayList<Integer> curFoodX, ArrayList<Integer>curFoodY){
         foodX = curFoodX;
         foodY = curFoodY;
+    }
+
+    public int getHeadRed() {
+        return headRed;
+    }
+
+    public int getHeadGreen() {
+        return headGreen;
+    }
+
+    public int getHeadBlue() {
+        return headBlue;
+    }
+
+    public int getTailRed() {
+        return tailRed;
+    }
+
+    public int getTailGreen() {
+        return tailGreen;
+    }
+
+    public int getTailBlue() {
+        return tailBlue;
+    }
+
+    public Boolean isGradient() {
+        return gradientFlag;
+    }
+
+    public void incrementRed(int num) {
+        headRed += num;
+        tailRed += num;
+    }
+
+    public void incrementGreen(int num) {
+        headGreen += num;
+        tailGreen += num;
+    }
+
+    public void incrementBlue(int num) {
+        headBlue += num;
+        tailBlue += num;
     }
 }

@@ -34,6 +34,8 @@ public class Snake extends JPanel implements MouseListener{
     int startX;
     int startY;
 
+    int change;
+
     /*
      * Changeable Attributes of the Snake
      */
@@ -80,10 +82,17 @@ public class Snake extends JPanel implements MouseListener{
         img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     }
 
+    /* 
     public void drawSnake2(Color head, Color tail, int size, int snakeDelay) {
         //Make a snake.
         SnakeThing snake = new SnakeThing(head, tail, size, snakeDelay);
         //Add it to a list of snakes
+        snakeList.add(snake);
+    }*/
+
+    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag)
+    {
+        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag);
         snakeList.add(snake);
     }
 
@@ -199,14 +208,34 @@ public class Snake extends JPanel implements MouseListener{
                     //Paint the snake.
                     for(int j=1;j<curSnake.getSegmentX().length;j++){
                         //Different color for the tail to see
-                        g2.setColor(curSnake.getTailColor());
+                        //g2.setColor(curSnake.getTailColor());
+                        g2.setColor(new Color(curSnake.getTailRed(), curSnake.getTailGreen(), curSnake.getTailBlue()));
                         g2.fillOval(curSnake.getSegmentX()[j], curSnake.getSegmentY()[j], curSnake.getSize(), curSnake.getSize());
 
                         //temporary color of this snake
-                        g2.setColor(curSnake.getHeadColor());
+                        //g2.setColor(curSnake.getHeadColor());
+                        g2.setColor(new Color(curSnake.getHeadRed(), curSnake.getHeadGreen(), curSnake.getHeadBlue()));
                         //the base shape of the snake
                         g2.fillOval(curSnake.getX(), curSnake.getY(), curSnake.getSize(), curSnake.getSize());
                     }
+
+                    if (curSnake.isGradient())
+                    {
+                        if (curSnake.getHeadRed() != 200)
+                            curSnake.incrementRed(10);
+                        else if (curSnake.getHeadGreen() != 150)
+                            curSnake.incrementGreen(10);
+                        else if (curSnake.getHeadBlue() != 100)
+                            curSnake.incrementBlue(10);
+                        else
+                        {
+                            curSnake.incrementRed(-100);
+                            curSnake.incrementGreen(-100);
+                            curSnake.incrementBlue(-100);
+                        } 
+                    } 
+                    
+
 
                     curSnake.incrementSnake();
                     repaint();
