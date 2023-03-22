@@ -221,16 +221,16 @@ public class Snake extends JPanel implements MouseListener{
 
                     if (curSnake.isGradient())
                     {
-                        if (curSnake.getHeadRed() != 200)
+                        if (curSnake.getHeadRed() <= 230)
                             curSnake.incrementRed(10);
-                        else if (curSnake.getHeadGreen() != 150)
+                        else if (curSnake.getHeadGreen() <= 150)
                             curSnake.incrementGreen(10);
-                        else if (curSnake.getHeadBlue() != 100)
+                        else if (curSnake.getHeadBlue() <= 150)
                             curSnake.incrementBlue(10);
                         else
                         {
                             curSnake.incrementRed(-100);
-                            curSnake.incrementGreen(-100);
+                            curSnake.incrementGreen(-50);
                             curSnake.incrementBlue(-100);
                         } 
                     } 

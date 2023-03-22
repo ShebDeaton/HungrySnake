@@ -39,6 +39,8 @@ public class SnakeWindow extends JFrame{
     int gradGreen;
     int gradBlue;
 
+    ButtonGroup colorButtons = new ButtonGroup();
+
 
 
     public SnakeWindow() {
@@ -97,42 +99,46 @@ public class SnakeWindow extends JFrame{
         JLabel mainLabel = new JLabel("CUSTOMIZATIONS:");
         mainLabel.setFont(new Font("Serif", Font.BOLD, 19));
 
-        JCheckBox speedBox = new JCheckBox("Speed");
-        speedBox.addActionListener(new ActionListener() {
+        JRadioButton rainbowButton = new JRadioButton("Rainbow Effect");
+        rainbowButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               speed = rand.nextInt(0,3) * 50;
+                gradRed = (rand.nextInt(14) + 3) * 10;
+                gradGreen = (rand.nextInt(14) + 3) * 10;
+                gradBlue = (rand.nextInt(14) + 3) * 10;
+
+                if (gradRed == gradGreen && gradRed == gradBlue && gradGreen == gradBlue)
+                {
+                    while (gradRed == gradGreen)
+                        gradRed = (rand.nextInt(17) + 3) * 10;
+                }
+                gradientFlag = true;
             }
         });
+
+        JRadioButton colorButton = new JRadioButton("Color");
+        colorButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                headNum = rand.nextInt(7);
+                tailNum = rand.nextInt(7);
+
+                while (tailNum == headNum){
+                    tailNum = rand.nextInt(7);
+                }
+            }
+        });
+
+        JRadioButton invisibleButton = new JRadioButton();
+        invisibleButton.setSelected(true);
+
+        colorButtons.add(rainbowButton);
+        colorButtons.add(colorButton);
+        colorButtons.add(invisibleButton);
+        
 
         JCheckBox sizeBox = new JCheckBox("Size");
         sizeBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 size = rand.nextInt(9, 30);
-            }
-        });
-
-        JCheckBox colorBox = new JCheckBox("Color");
-        colorBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                headNum = rand.nextInt(8);
-                tailNum = rand.nextInt(8);
-
-                while (tailNum == headNum){
-                    tailNum = rand.nextInt(8);
-                }
-
-                if ((headNum == 8) || (tailNum == 8)) {
-                    gradRed = (rand.nextInt(14) + 3) * 10;
-                    gradGreen = (rand.nextInt(10) + 3) * 10 ;
-                    gradBlue = (rand.nextInt(4) + 3) * 10;
-
-                    if (gradRed == gradGreen && gradRed == gradBlue && gradGreen == gradBlue)
-                    {
-                        while (gradRed == gradGreen)
-                            gradRed = (rand.nextInt(17) + 3) * 10;
-                    }
-                    gradientFlag = true;
-                }
             }
         });
 
@@ -155,13 +161,15 @@ public class SnakeWindow extends JFrame{
                 
                 trialSnake.drawSnakes();
                 //back to defaults
-                colorBox.setSelected(false);
+                invisibleButton.setSelected(true);
+                //colorBox.setSelected(false);
                 headNum = 2;
                 tailNum = 2;
                 sizeBox.setSelected(false);
                 size = 15;
-                speedBox.setSelected(false);
+                //rainbowBox.setSelected(false);
                 speed = 100;
+                gradientFlag = false;
 
             }
         });
@@ -180,7 +188,7 @@ public class SnakeWindow extends JFrame{
         String directions = "<html>Directions: <br>";
         directions += "The default snake is all black and a medium size.<br>";
         directions += "To generate a completely random snake of a different color or size.<br>";
-        directions += "Check the size, color, or both checkboxes and click generate to see your snake!<br>";
+        directions += "Check the size, color, or rainbow buttons and click generate to see your snake!<br>";
         directions += "To remove a snake, click on it, and click remove<br>";
         directions += "<br>";
         directions += "Click anywhere in the snake habitat to drop some food and watch what happens!<br>";
@@ -205,13 +213,15 @@ public class SnakeWindow extends JFrame{
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        eastPan.add(speedBox, gbc);
+        eastPan.add(rainbowButton, gbc);
+        //eastPan.add(rainbowBox, gbc);
 
         gbc.gridy = 3;
-        eastPan.add(sizeBox, gbc);
+        eastPan.add(colorButton, gbc);
+       // eastPan.add(colorBox, gbc);
 
         gbc.gridy = 4;
-        eastPan.add(colorBox, gbc);
+        eastPan.add(sizeBox, gbc);
 
         gbc.gridy = 5;
         eastPan.add(genSnake, gbc);
