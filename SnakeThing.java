@@ -38,17 +38,6 @@ public class SnakeThing{
     private int tailBlue;
     private Boolean gradientFlag;
 
-/* 
-    public SnakeThing(Color head, Color tail, int size, int speed) {
-        //Assign relevant stuff
-        headColor = head;
-        tailColor = tail;
-        snakeSize = size;
-        snakeSpeed = speed;
-        
-        //Spawn the snake
-        spawnSnake();
-    }*/
 
     public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag)
     {

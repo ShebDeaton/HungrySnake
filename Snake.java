@@ -39,60 +39,33 @@ public class Snake extends JPanel implements MouseListener{
     /*
      * Changeable Attributes of the Snake
      */
-        //radius of body of snake
-        int speedSize = 15;
+    //radius of body of snake
+    int speedSize = 15;
 
-        //speed of the snake
-        private int snakeDelay = 500;
+    //speed of the snake
+    //Not able to be used for now.
+    //private int snakeDelay = 500;
 
-        //Color of the snake head
-        Color headColor = Color.black;
+    //Color of the snake head
+    Color headColor = Color.black;
 
-        //Color of the snake body
-        Color tailColor = Color.black;
+    //Color of the snake body
+    Color tailColor = Color.black;
 
 
     
     public Snake()
     {  
         addMouseListener(this);
-        /*
-        this button would be like the add button i just needed
-        it to test if this works for now
-        */
-
-        //
-        //COMMENTED OUT: I turned the add button into the generate button at the end of
-        //the customizations section
-        //
-        /* JButton addSnake = new JButton("Add");
-        addSnake.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                tailDuration = 0;
-                drawSnake();
-            }
-        });
-        this.add(addSnake); */
-        //drawSnake(headColor,tailColor,speedSize,snakeDelay);
-
-        /*
-        this is the background for the snakes to be drawn on. It has to be a 
-        buffered image to show it as animating.
-        */
         img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     }
 
-    /* 
-    public void drawSnake2(Color head, Color tail, int size, int snakeDelay) {
-        //Make a snake.
-        SnakeThing snake = new SnakeThing(head, tail, size, snakeDelay);
-        //Add it to a list of snakes
-        snakeList.add(snake);
-    }*/
 
     public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag)
     {
+        //Make a Snake
         SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag);
+        //Add it to a list of snakes.
         snakeList.add(snake);
     }
 
@@ -260,203 +233,7 @@ public class Snake extends JPanel implements MouseListener{
             repaint();
         }
     }
-/* 
-    public void drawSnake(Color head, Color tail, int size, int snakeDelay) {
-        Graphics2D g2 = img.createGraphics();
-        //Paint the snake.
-        g2.setColor(Color.red);
-        //the base shape of the snake
-        g2.fillOval(350, 350, 50, 50);
-        repaint();
-       //Pauses the drawing of the previous snake when u click add again, I dont
-       // know how to keep the previous one going but we'll figure it out.
-        
-        if (snakeAnimation != null && snakeAnimation.isRunning()){
-            snakeAnimation.stop();
-        }
-        
-        startX = rand.nextInt(imageWidth);
-        startY = rand.nextInt(imageHeight);
-        //Check if there is food already.
-        if (foodX.size() > 0) {
-            // Head to the food.
-            direction = 8;
-        }
-        else {
-            //Random number generated initially for direction later
-            //8 for cardinal directions
-            direction = rand.nextInt(8);
-        }
 
-        ActionListener timerDraw = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Graphics2D g2 = img.createGraphics();
-
-                int newX;
-                int newY;
-                //changes the positioning of the snake, basically
-                //it's next moves
-                //Use a switch to keep direction consistent while still being random.
-                switch (direction) {
-                    case 0:
-                        //north
-                        newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                        newY = startY + (int) ((-1)* size/2 * Math.random()); 
-                        break;
-                    case 1:
-                        //north-east
-                        newX = startX + (int) (size/2 * Math.random());
-                        newY = startY + (int) ((-1)*size/2 * Math.random());
-                        break;
-                    case 2:
-                        //east
-                        newX = startX + (int) (size/2 * Math.random());
-                        newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                        break;
-                    case 3:
-                        //south-east
-                        newX = startX + (int) (size/2 * Math.random());
-                        newY = startY + (int) (size/2 * Math.random());
-                        break;
-                    case 4:
-                        //south
-                        newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                        newY = startY + (int) (size/2 * Math.random()); 
-                        break;
-                    case 5:
-                        //south-west
-                        newX = startX + (int) ((-1)*size/2 * Math.random());
-                        newY = startY + (int) (size/2 * Math.random());
-                       break;
-                    case 6:
-                        //west
-                        newX = startX + (int) ((-1)*size/2 * Math.random());
-                        newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                        break;
-                    case 7:
-                        //north-west
-                        newX = startX + (int) ((-1)*size/2 * Math.random());
-                        newY = startY + (int) ((-1)*size/2 * Math.random());
-                        break;
-                    case 8:
-                        //to the oldest food
-                        int focusFoodX = foodX.get(0);
-                        int focusFoodY = foodY.get(0);
-                        //Compare startX to focusFoodX
-                        if (startX > focusFoodX) {
-                            //If right of food, go left.
-                            newX = startX + (int) ((-1)*size/2 * Math.random());                         
-                        }
-                        else {
-                            //If left of food, go right.
-                            newX = startX + (int) (size/2 * Math.random());
-                        }
-                        //Compare startY to focusFoodY
-                        if (startY > focusFoodY) {
-                            //If below food, go up
-                            newY = startY + (int) ((-1)* size/2 * Math.random()); 
-                        }
-                        else {
-                            //If above the food, go down.
-                            newY = startY + (int) (size/2 * Math.random()); 
-                        }                       
-                        //Check if the food has been touched
-                        if ((Math.abs(newX - focusFoodX) <= size) && (Math.abs(newY - focusFoodY) <= size)) {
-                            //Delete Food
-                            g2.fillRect(foodX.get(0),foodY.get(0),10,10);
-                            foodX.remove(0);
-                            foodY.remove(0);
-                            //Check if the food list is empty
-                            if (foodX.size() == 0) {
-                                //Change the direciton randomly if so.
-                                direction = rand.nextInt(8);
-                            }
-                        }
-                        break;
-                    default: 
-                        newX = startX + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());
-                        newY = startY + (int) ((Math.round(Math.random())*2-1) * size/2 * Math.random());  
-                        break;
-                }   
-                
-                int[] directionOptions = new int[3];
-                int choice = rand.nextInt(3);
-                //Check the left border
-                if (newX < 0+size) {
-                    //Set direction to east(2), north east(1), or south east(3)
-                    directionOptions[0] = 2;
-                    directionOptions[1] = 1;
-                    directionOptions[2] = 3;
-                    direction = directionOptions[choice];
-                }
-                //Check the right border
-                if (newX > imageWidth-size) {
-                    //Set direction to west(6), north west(7), or south west(5)
-                    directionOptions[0] = 6;
-                    directionOptions[1] = 7;
-                    directionOptions[2] = 5;
-                    direction = directionOptions[choice];
-                }
-                //Check the top border
-                if (newY < 0+size) {
-                    //Set direction to south(4), south west(5), or south east(3)
-                    directionOptions[0] = 4;
-                    directionOptions[1] = 5;
-                    directionOptions[2] = 3;
-                    direction = directionOptions[choice];
-                }
-                //Check the bottom border
-                if (newY > imageHeight-size) {
-                    //Set direction to north(0), north west(7), or north east(1)
-                    directionOptions[0] = 0;
-                    directionOptions[1] = 7;
-                    directionOptions[2] = 1;
-                    direction = directionOptions[choice];
-                }
-
-                //Keeps track of Tail Segments.
-                if(tailDuration < tailMax) {
-                    segmentX[tailDuration] = startX;
-                    segmentY[tailDuration] = startY;
-                    tailDuration++;
-                }
-                else if(tailDuration == tailMax) {
-                    //Get rid of last tail segment.
-                    segmentX[tailDuration] = startX;
-                    segmentY[tailDuration] = startY;
-                    g2.setColor(Color.white);
-                    g2.fillOval(segmentX[0], segmentY[0], size, size);
-                    //Shifts all segments down.
-                    for(int i=0;i<tailMax;i++)
-                    {
-                        segmentX[i] = segmentX[i+1];
-                        segmentY[i] = segmentY[i+1];
-                        //Might have to use something similar to color the tail consistently?
-                    }
-                }
-
-                //Different color for the tail to see
-                g2.setColor(tail);
-                g2.fillOval(startX, startY, size, size);
-
-                //temporary color of this snake
-                g2.setColor(head);
-                //the base shape of the snake
-                g2.fillOval(newX, newY, size, size);
-
-                //New starting point based on current position.
-                startX = newX;
-                startY = newY;
-                
-                repaint();
-            }
-        };
-        //Turn this comment off and he'll go SUPER fast.
-        //snakeDelay = 0;
-        snakeAnimation = new Timer(snakeDelay, timerDraw);
-        snakeAnimation.start();
-    } 
-*/
     public void drawBorder()
     {
         Graphics2D g = img.createGraphics();
