@@ -185,6 +185,15 @@ public class SnakeWindow extends JFrame{
             }
         });
 
+        JButton killSnake = new JButton("Kill");
+        killSnake.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int byeSnake = snakeBox.getSelectedIndex();
+                trialSnake.snakeList.get(byeSnake).killSnake();
+            }
+        });
+
+
         String directions = "<html>Directions: <br>";
         directions += "The default snake is all black and a medium size.<br>";
         directions += "To generate a completely random snake of a different color or size.<br>";
@@ -234,6 +243,9 @@ public class SnakeWindow extends JFrame{
 
         gbc.gridy = 8;
         eastPan.add(remSnake, gbc);
+
+        gbc.gridy = 9;
+        eastPan.add(killSnake, gbc);
 
         c.gridy = 1;
         c.gridx = 2;
