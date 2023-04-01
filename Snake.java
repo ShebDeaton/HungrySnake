@@ -19,6 +19,7 @@ public class Snake extends JPanel implements MouseListener{
     private static int tailMax = 15;
     private int[] segmentX = new int[tailMax+1];
     private int[] segmentY = new int[tailMax+1];
+    private boolean recentlyEaten;
     //Food Stuff
     public ArrayList<Integer> foodX = new ArrayList<Integer>();
     public ArrayList<Integer> foodY = new ArrayList<Integer>();
@@ -61,10 +62,11 @@ public class Snake extends JPanel implements MouseListener{
     }
 
 
-    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag)
+    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag, int length)
     {
+
         //Make a Snake
-        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag);
+        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag, length);
         //Add it to a list of snakes.
         snakeList.add(snake);
     }
@@ -113,6 +115,9 @@ public class Snake extends JPanel implements MouseListener{
                                 //Revive it
                                 curSnake.reviveSnake();
                             }
+                            //Increment snake's length
+                            curSnake.incrementTail(); 
+
                         }
                         //Check if the food list is empty again
                         if (foodX.size() == 0) {
@@ -120,6 +125,7 @@ public class Snake extends JPanel implements MouseListener{
                             int randDir = rand.nextInt(8);
                             curSnake.changeDirection(randDir);
                             resetSnakes = true;
+                            recentlyEaten = true;
                         }
                     }
                     //Check if the food list is empty
@@ -176,14 +182,15 @@ public class Snake extends JPanel implements MouseListener{
                     //Check if the snake is full
                     if(curSnake.isFull()==true){
                         g2.setColor(Color.white);
-                        g2.fillOval(curSnake.getSegmentX()[0], curSnake.getSegmentY()[0], curSnake.getSize(), curSnake.getSize());
+                        g2.fillOval(curSnake.getSegmentX().get(0), curSnake.getSegmentY().get(0), curSnake.getSize(), curSnake.getSize());
                     }
                     //Paint the snake.
-                    for(int j=1;j<curSnake.getSegmentX().length;j++){
+                    for(int j=1;j<curSnake.getSegmentX().size();j++){
                         //Different color for the tail to see
                         //g2.setColor(curSnake.getTailColor());
-                        g2.setColor(new Color(curSnake.getTailRed(), curSnake.getTailGreen(), curSnake.getTailBlue()));
-                        g2.fillOval(curSnake.getSegmentX()[j], curSnake.getSegmentY()[j], curSnake.getSize(), curSnake.getSize());
+                        
+                        g2.setColor(new Color(curSnake.getTailRed(), curSnake.getTailGreen(), curSnake.getTailBlue()));    
+                        g2.fillOval(curSnake.getSegmentX().get(j), curSnake.getSegmentY().get(j), curSnake.getSize(), curSnake.getSize());
 
                         //temporary color of this snake
                         //g2.setColor(curSnake.getHeadColor());
@@ -223,11 +230,11 @@ public class Snake extends JPanel implements MouseListener{
     public void cleanSnake(int deadSnake){
         Graphics2D g2 = img.createGraphics();
         SnakeThing snakeCorpse = snakeList.get(deadSnake);
-        for(int j=0;j<snakeCorpse.getSegmentX().length;j++){
+        for(int j=0;j<snakeCorpse.getSegmentX().size();j++){
             //Set the color to white, to match background.
             g2.setColor(Color.white);
             //Cover the removed snake.
-            g2.fillOval(snakeCorpse.getSegmentX()[j], snakeCorpse.getSegmentY()[j], snakeCorpse.getSize(), snakeCorpse.getSize());
+            g2.fillOval(snakeCorpse.getSegmentX().get(j), snakeCorpse.getSegmentY().get(j), snakeCorpse.getSize(), snakeCorpse.getSize());
             //the base shape of the snake
             g2.fillOval(snakeCorpse.getX(), snakeCorpse.getY(), snakeCorpse.getSize(), snakeCorpse.getSize());
             repaint();

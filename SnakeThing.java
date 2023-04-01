@@ -12,10 +12,12 @@ public class SnakeThing{
     private int snakeSpeed;
     private int direction;
     private int tailDuration;
-    private int tailMax = 15;
+    private int tailMax;
     private int snakeSize;
-    private int[] segmentX = new int[tailMax+1];
-    private int[] segmentY = new int[tailMax+1];
+    //private int[] segmentX;
+    //private int[] segmentY;
+    private ArrayList<Integer> segmentX = new ArrayList<Integer>();
+    private ArrayList<Integer> segmentY = new ArrayList<Integer>();
     private int newX;
     private int newY;
     private int startX;
@@ -39,7 +41,7 @@ public class SnakeThing{
     private Boolean gradientFlag;
 
 
-    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag)
+    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag, int length)
     {
         headRed = hRed;
         headGreen = hGreen;
@@ -52,7 +54,9 @@ public class SnakeThing{
         snakeSpeed = speed;
 
         gradientFlag = gFlag;
-
+        tailMax = length;
+        // segmentX = new int[tailMax+1];
+        // segmentY = new int[tailMax+1];
         spawnSnake();
     }
 
@@ -156,26 +160,28 @@ public class SnakeThing{
             }
             //Keep track of tail segments
             if(tailDuration < tailMax) {
+                isFull = false;
                 //If the snake is not at full size
                 //Keep track of each segment and increase the size.
-                segmentX[tailDuration] = startX;
-                segmentY[tailDuration] = startY;
+                segmentX.add(startX);
+                segmentY.add(startY);
                 tailDuration++;
-                //Mark the isFull flag false.
-                isFull = false;
+                if(tailDuration==tailMax){
+                    isFull = true;
+                }
             }
-            else if (tailDuration == tailMax) {
+            if (tailDuration == tailMax) {
                 //If the snake is at full size
                 //Keep track of each segment
-                segmentX[tailDuration] = startX;
-                segmentY[tailDuration] = startY;
+                segmentX.set(tailDuration-1,startX);
+                segmentY.set(tailDuration-1, startY);
                 //Mark the isFull flag true
                 isFull = true;
                 //Shift all segments down
-                for(int i=0;i<tailMax;i++)
+                for(int i=0;i<tailMax-1;i++)
                 {
-                    segmentX[i] = segmentX[i+1];
-                    segmentY[i] = segmentY[i+1];
+                    segmentX.set(i, segmentX.get(i+1));
+                    segmentY.set(i, segmentY.get(i+1));
                 }
 
             }
@@ -242,18 +248,26 @@ public class SnakeThing{
     }
 
     //Get the snake's X-Segment List.
-    public int[] getSegmentX(){
+    public ArrayList<Integer> getSegmentX(){
         return segmentX;
     }
 
     //Get the snake's Y-Segment List.
-    public int[] getSegmentY(){
+    public ArrayList<Integer> getSegmentY(){
         return segmentY;
     }
 
     //Get the snake's size.
     public int getSize(){
         return snakeSize;
+    }
+
+    public int getLength(){
+        return tailMax;
+    }
+
+    public void incrementTail(){
+        tailMax++;
     }
 
     public int getSpeed() {
