@@ -30,6 +30,8 @@ public class SnakeThing{
     private ArrayList<Integer> foodX = new ArrayList<Integer>();
     private ArrayList<Integer> foodY = new ArrayList<Integer>();
     private boolean isFull = false;
+    private int headColorNum;
+    private int tailColorNum;
 
     //PRETTY COLORS STUFF
     private int headRed;
@@ -43,7 +45,7 @@ public class SnakeThing{
     private int snakeName;
 
 
-    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag, int length, int name)
+    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag, int length, int name, int headNum, int tailNum)
     {
         headRed = hRed;
         headGreen = hGreen;
@@ -52,6 +54,14 @@ public class SnakeThing{
         tailGreen = tGreen;
         tailBlue = tBlue;
 
+        if(gFlag == true){
+            headColorNum = 7;
+            tailColorNum = 7;
+        }
+        else{
+            headColorNum = headNum;
+            tailColorNum = tailNum;
+        }
         snakeSize = size;
         snakeSpeed = speed;
 
@@ -282,6 +292,14 @@ public class SnakeThing{
     public void refreshFood(ArrayList<Integer> curFoodX, ArrayList<Integer>curFoodY){
         foodX = curFoodX;
         foodY = curFoodY;
+    }
+
+    public int getHeadNum(){
+        return headColorNum;
+    }
+
+    public int getTailNum(){
+        return tailColorNum;
     }
 
     public int getHeadRed() {

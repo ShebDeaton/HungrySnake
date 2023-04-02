@@ -62,11 +62,11 @@ public class Snake extends JPanel implements MouseListener{
     }
 
 
-    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag, int length, int name)
+    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag, int length, int name, int headNum, int tailNum)
     {
 
         //Make a Snake
-        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag, length, name);
+        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag, length, name, headNum, tailNum);
         //Add it to a list of snakes.
         snakeList.add(snake);
     }
@@ -116,6 +116,8 @@ public class Snake extends JPanel implements MouseListener{
                                 curSnake.reviveSnake();
                             }
                             //Increment snake's length
+                            curSnake.incrementTail(); 
+                            curSnake.incrementTail(); 
                             curSnake.incrementTail(); 
 
                         }
