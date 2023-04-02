@@ -156,13 +156,13 @@ public class SnakeWindow extends JFrame{
                 //trialSnake.drawSnake2(possibleColors[headNum], possibleColors[tailNum], size, speed);
 
                 if (gradientFlag) {
-                    trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, speed, gradientFlag, maxLength);
+                    trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, speed, gradientFlag, maxLength, headNum, tailNum);
                     String snakeString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[7], possibleCStrings[7], size, speed,maxLength);
                     model.addElement(snakeString);
                 }
                 else {
                     trialSnake.drawSnake2(possibleRedColors[headNum], possibleGreenColors[headNum], possibleBlueColors[headNum], 
-                            possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, speed, gradientFlag, maxLength);
+                            possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, speed, gradientFlag, maxLength, headNum, tailNum);
                     String snakeString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed,maxLength);
                     model.addElement(snakeString);
                 }
@@ -208,7 +208,10 @@ public class SnakeWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int refreshSnakeChoice = snakeBox.getSelectedIndex();
                 int length = trialSnake.snakeList.get(refreshSnakeChoice).getLength();
-                String refreshString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed,length);
+                int size = trialSnake.snakeList.get(refreshSnakeChoice).getSize();
+                int head = trialSnake.snakeList.get(refreshSnakeChoice).getHeadNum();
+                int tail = trialSnake.snakeList.get(refreshSnakeChoice).getTailNum();
+                String refreshString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[head], possibleCStrings[tail], size, speed,length);
                 model.setElementAt(refreshString,refreshSnakeChoice);
             }
         });
