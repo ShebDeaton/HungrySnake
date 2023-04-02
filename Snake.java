@@ -117,6 +117,8 @@ public class Snake extends JPanel implements MouseListener{
                             }
                             //Increment snake's length
                             curSnake.incrementTail(); 
+                            curSnake.incrementTail(); 
+                            curSnake.incrementTail(); 
 
                         }
                         //Check if the food list is empty again
