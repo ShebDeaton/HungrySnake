@@ -40,8 +40,10 @@ public class SnakeThing{
     private int tailBlue;
     private Boolean gradientFlag;
 
+    private int snakeName;
 
-    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag, int length)
+
+    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag, int length, int name)
     {
         headRed = hRed;
         headGreen = hGreen;
@@ -55,6 +57,8 @@ public class SnakeThing{
 
         gradientFlag = gFlag;
         tailMax = length;
+        snakeName = name;
+
         // segmentX = new int[tailMax+1];
         // segmentY = new int[tailMax+1];
         spawnSnake();
@@ -321,5 +325,9 @@ public class SnakeThing{
     public void incrementBlue(int num) {
         headBlue += num;
         tailBlue += num;
+    }
+
+    public int getNameNum(){
+        return snakeName;
     }
 }

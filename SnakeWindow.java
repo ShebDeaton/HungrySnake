@@ -42,7 +42,25 @@ public class SnakeWindow extends JFrame{
 
     ButtonGroup colorButtons = new ButtonGroup();
 
-
+    String[] snakeNames = {"Snakespeare",
+        "Hisslehoff",
+        "Snakers",
+        "Hissy",
+        "Slithers",
+        "Scaley",
+        "Cathiss",
+        "Mr. Balboa",
+        "Squeezer",
+        "Hisstopher",
+        "Parhiss",
+        "Hissinger",
+        "Hisschel",
+        "Fangis",
+        "Sir Pent",
+        "Strangles",
+        "Noodles",
+        "Biscuit",
+        "Bob the Hisser"};
 
     public SnakeWindow() {
         trialSnake = new Snake();
@@ -155,18 +173,31 @@ public class SnakeWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 //trialSnake.drawSnake2(possibleColors[headNum], possibleColors[tailNum], size, speed);
 
-                if (gradientFlag) {
-                    trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, speed, gradientFlag, maxLength);
-                    String snakeString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[7], possibleCStrings[7], size, speed,maxLength);
-                    model.addElement(snakeString);
+                if (trialSnake.snakeList.size() < snakeNames.length) {
+
+                    int nameNum = rand.nextInt(snakeNames.length);
+                    for (int i = 0; i < trialSnake.snakeList.size(); i ++){
+                        if (nameNum == trialSnake.snakeList.get(i).getNameNum()) {
+                            nameNum = rand.nextInt(snakeNames.length);
+                            i = 0;
+                        }
+                    }
+                    if (gradientFlag) {
+                        trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, speed, gradientFlag, maxLength, nameNum);
+                        String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[7], possibleCStrings[7], size, maxLength);
+                        model.addElement(snakeString);
+                    }
+                    else {
+                        trialSnake.drawSnake2(possibleRedColors[headNum], possibleGreenColors[headNum], possibleBlueColors[headNum], 
+                                possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, speed, gradientFlag, maxLength, nameNum);
+                        String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[headNum], possibleCStrings[tailNum], size,maxLength);
+                        model.addElement(snakeString);
+                    }
                 }
                 else {
-                    trialSnake.drawSnake2(possibleRedColors[headNum], possibleGreenColors[headNum], possibleBlueColors[headNum], 
-                            possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, speed, gradientFlag, maxLength);
-                    String snakeString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed,maxLength);
-                    model.addElement(snakeString);
+                    JOptionPane.showMessageDialog(null, "Maximum of " + snakeNames.length + " Snakes to be generated at once. Please remove one in order to generate another",
+                                                                    "Error: Too Many Snakes", 1);
                 }
-                
                 trialSnake.drawSnakes();
                 //back to defaults
                 invisibleButton.setSelected(true);
@@ -208,7 +239,7 @@ public class SnakeWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int refreshSnakeChoice = snakeBox.getSelectedIndex();
                 int length = trialSnake.snakeList.get(refreshSnakeChoice).getLength();
-                String refreshString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed,length);
+                String refreshString = String.format("%-26s%-26s%-26d%-26d%-26d", possibleCStrings[headNum], possibleCStrings[tailNum], size, speed,length);
                 model.setElementAt(refreshString,refreshSnakeChoice);
             }
         });
@@ -229,7 +260,7 @@ public class SnakeWindow extends JFrame{
         gbc.gridy = 0;
         eastPan.add(directionLabel, gbc);
 
-        String labelString = String.format("%-22s%-22s%-22s%-22s%-22s", "Head Color", "Tail Color", "Size", "Speed","Length");
+        String labelString = String.format("%-26s%-22s%-22s%-22s%-22s", "Name", "Head Color", "Tail Color", "Size","Length");
         JLabel listLabel = new JLabel(labelString);
 
         gbc.gridx = 0;
