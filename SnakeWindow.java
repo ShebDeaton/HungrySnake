@@ -242,7 +242,8 @@ public class SnakeWindow extends JFrame{
                 int size = trialSnake.snakeList.get(refreshSnakeChoice).getSize();
                 int head = trialSnake.snakeList.get(refreshSnakeChoice).getHeadNum();
                 int tail = trialSnake.snakeList.get(refreshSnakeChoice).getTailNum();
-                String refreshString = String.format("%-24s%-24s%-24d%-24d%-24d", possibleCStrings[head], possibleCStrings[tail], size, speed,length);
+                int nameNum = trialSnake.snakeList.get(refreshSnakeChoice).getNameNum();
+                String refreshString = String.format("%-26s%-26s%-26d%-26d%-26d", snakeNames[nameNum], possibleCStrings[head], possibleCStrings[tail], size,length);
                 model.setElementAt(refreshString,refreshSnakeChoice);
             }
         });
