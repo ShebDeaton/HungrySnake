@@ -267,7 +267,7 @@ public class SnakeThing{
     }
 
     public void incrementTail(){
-        tailMax++;
+        tailMax += 3;
     }
 
     public int getSpeed() {
