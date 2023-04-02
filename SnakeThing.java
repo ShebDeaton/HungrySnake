@@ -52,9 +52,14 @@ public class SnakeThing{
         tailGreen = tGreen;
         tailBlue = tBlue;
 
-        headColorNum = headNum;
-        tailColorNum = tailNum;
-
+        if(gFlag == true){
+            headColorNum = 7;
+            tailColorNum = 7;
+        }
+        else{
+            headColorNum = headNum;
+            tailColorNum = tailNum;
+        }
         snakeSize = size;
         snakeSpeed = speed;
 
