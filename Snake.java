@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
-import java.lang.*;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -12,14 +11,7 @@ public class Snake extends JPanel implements MouseListener{
     private BufferedImage img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     private Timer snakeAnimation;
     private Random rand = new Random();
-    private int firstSpawn = 0;
     public int direction;
-    //Tail Stuff
-    private int tailDuration = 0;
-    private static int tailMax = 15;
-    private int[] segmentX = new int[tailMax+1];
-    private int[] segmentY = new int[tailMax+1];
-    private boolean recentlyEaten;
     //Food Stuff
     public ArrayList<Integer> foodX = new ArrayList<Integer>();
     public ArrayList<Integer> foodY = new ArrayList<Integer>();
@@ -27,25 +19,19 @@ public class Snake extends JPanel implements MouseListener{
     private boolean resetSnakes = false;
     private boolean flushSnakes = false;
     private int borderThickness;
-    
-    private int indSnakeSpeed = 100 ;
+
     
     
     //Starting coordinates of the snake
     int startX;
     int startY;
 
-    int change;
 
     /*
      * Changeable Attributes of the Snake
      */
     //radius of body of snake
     int speedSize = 15;
-
-    //speed of the snake
-    //Not able to be used for now.
-    //private int snakeDelay = 500;
 
     //Color of the snake head
     Color headColor = Color.black;
@@ -62,11 +48,11 @@ public class Snake extends JPanel implements MouseListener{
     }
 
 
-    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, int snakeDelay, Boolean flag, int length, int name, int headNum, int tailNum)
+    public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, Boolean flag, int length, int name, int headNum, int tailNum)
     {
 
         //Make a Snake
-        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, snakeDelay, flag, length, name, headNum, tailNum);
+        SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, flag, length, name, headNum, tailNum);
         //Add it to a list of snakes.
         snakeList.add(snake);
     }
@@ -127,7 +113,6 @@ public class Snake extends JPanel implements MouseListener{
                             int randDir = rand.nextInt(8);
                             curSnake.changeDirection(randDir);
                             resetSnakes = true;
-                            recentlyEaten = true;
                         }
                     }
                     //Check if the food list is empty

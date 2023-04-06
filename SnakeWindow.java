@@ -23,7 +23,6 @@ public class SnakeWindow extends JFrame{
     String[] possibleCStrings = {"Blue    ", "Red     ", "black   ", "green   ", "yellow  ", "green   ", "magenta", "gradient"};
 
     int size = 15;
-    int speed = 100;
     int maxLength = 15;
 
     String[] snakearr = new String[3];
@@ -77,8 +76,6 @@ public class SnakeWindow extends JFrame{
         c.ipadx = 700;
         c.ipady = 700;
         main.add(trialSnake, c);
-        //this.setLayout(new GridLayout(1,2));
-        //this.add(trialSnake);
         
         //Trying to create a gap between the customizations and the snake panel
         JPanel gap = new JPanel();
@@ -183,13 +180,13 @@ public class SnakeWindow extends JFrame{
                         }
                     }
                     if (gradientFlag) {
-                        trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, speed, gradientFlag, maxLength, nameNum, headNum, tailNum);
+                        trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, gradientFlag, maxLength, nameNum, headNum, tailNum);
                         String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[7], possibleCStrings[7], size, maxLength);
                         model.addElement(snakeString);
                     }
                     else {
                         trialSnake.drawSnake2(possibleRedColors[headNum], possibleGreenColors[headNum], possibleBlueColors[headNum], 
-                                possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, speed, gradientFlag, maxLength, nameNum, headNum, tailNum);
+                                possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, gradientFlag, maxLength, nameNum, headNum, tailNum);
                         String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[headNum], possibleCStrings[tailNum], size,maxLength);
                         model.addElement(snakeString);
                     }
@@ -209,7 +206,6 @@ public class SnakeWindow extends JFrame{
                 size = 15;
                 maxLength = 15;
                 //rainbowBox.setSelected(false);
-                speed = 100;
                 gradientFlag = false;
 
             }
@@ -243,7 +239,7 @@ public class SnakeWindow extends JFrame{
                 int head = trialSnake.snakeList.get(refreshSnakeChoice).getHeadNum();
                 int tail = trialSnake.snakeList.get(refreshSnakeChoice).getTailNum();
                 int nameNum = trialSnake.snakeList.get(refreshSnakeChoice).getNameNum();
-                String refreshString = String.format("%-26s%-26s%-26d%-26d%-26d", snakeNames[nameNum], possibleCStrings[head], possibleCStrings[tail], size,length);
+                String refreshString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[head], possibleCStrings[tail], size,length);
                 model.setElementAt(refreshString,refreshSnakeChoice);
             }
         });

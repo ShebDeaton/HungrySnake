@@ -1,35 +1,38 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
-import java.awt.event.*;
-import java.lang.*;
 import java.util.Random;
 import java.util.ArrayList;
 
 public class SnakeThing{
-    private Timer timer;
+    //Random Value Generator.
     private Random rand = new Random();
-    private int snakeSpeed;
+    //Direction of the snake's movement
     private int direction;
+    //For building the tail
     private int tailDuration;
     private int tailMax;
+    //Size of each segment
     private int snakeSize;
-    //private int[] segmentX;
-    //private int[] segmentY;
+    //Coordinates for each segment
     private ArrayList<Integer> segmentX = new ArrayList<Integer>();
     private ArrayList<Integer> segmentY = new ArrayList<Integer>();
+    //For snake movement
     private int newX;
     private int newY;
     private int startX;
     private int startY;
+    //For determining how long snake moves.
     private int age = 0;
     private int lifeSpan = 500;
     private boolean alive = true;
+    //Colors of the snake.
     private Color headColor;
     private Color tailColor;
+    //Snake's memory of the food.
     private ArrayList<Integer> foodX = new ArrayList<Integer>();
     private ArrayList<Integer> foodY = new ArrayList<Integer>();
+    //Tracking if the snake is full.
     private boolean isFull = false;
+    //Color number of the snake.
     private int headColorNum;
     private int tailColorNum;
 
@@ -42,10 +45,11 @@ public class SnakeThing{
     private int tailBlue;
     private Boolean gradientFlag;
 
+    //Nake number of the snake.
     private int snakeName;
 
 
-    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, int speed, Boolean gFlag, int length, int name, int headNum, int tailNum)
+    public SnakeThing (int hRed, int hGreen, int hBlue, int tRed, int tGreen, int tBlue, int size, Boolean gFlag, int length, int name, int headNum, int tailNum)
     {
         headRed = hRed;
         headGreen = hGreen;
@@ -63,14 +67,11 @@ public class SnakeThing{
             tailColorNum = tailNum;
         }
         snakeSize = size;
-        snakeSpeed = speed;
 
         gradientFlag = gFlag;
         tailMax = length;
         snakeName = name;
 
-        // segmentX = new int[tailMax+1];
-        // segmentY = new int[tailMax+1];
         spawnSnake();
     }
 
@@ -282,10 +283,6 @@ public class SnakeThing{
 
     public void incrementTail(){
         tailMax += 3;
-    }
-
-    public int getSpeed() {
-        return snakeSpeed;
     }
 
     //Get the latest list of food locations.
