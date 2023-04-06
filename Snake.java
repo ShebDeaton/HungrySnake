@@ -6,12 +6,14 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class Snake extends JPanel implements MouseListener{
+    //size of the snake window and image
     private static int imageWidth = 700;
     private static int imageHeight = 700;
     private BufferedImage img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     private Timer snakeAnimation;
     private Random rand = new Random();
     public int direction;
+
     //Food Stuff
     public ArrayList<Integer> foodX = new ArrayList<Integer>();
     public ArrayList<Integer> foodY = new ArrayList<Integer>();
@@ -20,12 +22,9 @@ public class Snake extends JPanel implements MouseListener{
     private boolean flushSnakes = false;
     private int borderThickness;
 
-    
-    
     //Starting coordinates of the snake
     int startX;
     int startY;
-
 
     /*
      * Changeable Attributes of the Snake
@@ -39,24 +38,27 @@ public class Snake extends JPanel implements MouseListener{
     //Color of the snake body
     Color tailColor = Color.black;
 
-
-    
     public Snake()
     {  
         addMouseListener(this);
         img = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
     }
 
-
+    /*
+     * This function makes the snake an object of the SnakeThing Class
+     */
     public void drawSnake2(int headRed, int headGreen, int headBlue, int tailRed, int tailGreen, int tailBlue, int size, Boolean flag, int length, int name, int headNum, int tailNum)
     {
-
         //Make a Snake
         SnakeThing snake = new SnakeThing(headRed, headGreen, headBlue, tailRed, tailGreen, tailBlue, size, flag, length, name, headNum, tailNum);
         //Add it to a list of snakes.
         snakeList.add(snake);
     }
 
+    /*
+     * This is the function that fully draws and handles the entire movement of the snake including
+     * food and length
+     */
     public void drawSnakes() {
         if (snakeAnimation != null && snakeAnimation.isRunning()){
             snakeAnimation.stop();
@@ -80,6 +82,7 @@ public class Snake extends JPanel implements MouseListener{
                         if ((Math.abs(curSnake.getX() - foodX.get(0)) <= curSnake.getSize()) && (Math.abs(curSnake.getY() - foodY.get(0))) <= curSnake.getSize()) {
                             //Delete Food
                             g2.setColor(Color.white);
+
                              //Top Bun
                             g2.fillRect(foodX.get(0)+1,foodY.get(0)-6,11,3);
                             g2.fillRect(foodX.get(0),foodY.get(0)-3,13,3);
@@ -186,6 +189,7 @@ public class Snake extends JPanel implements MouseListener{
                         g2.fillOval(curSnake.getX(), curSnake.getY(), curSnake.getSize(), curSnake.getSize());
                     }
 
+                    //if the current snake has the gradient flag, it will increment each rgb value
                     if (curSnake.isGradient())
                     {
                         if (curSnake.getHeadRed() <= 230)
@@ -201,8 +205,6 @@ public class Snake extends JPanel implements MouseListener{
                             curSnake.incrementBlue(-100);
                         } 
                     } 
-                    
-
 
                     curSnake.incrementSnake();
                     repaint();
@@ -214,6 +216,9 @@ public class Snake extends JPanel implements MouseListener{
         snakeAnimation.start();
     }
 
+    /*
+     * erases the snake whenever the remove snake button is activates
+     */
     public void cleanSnake(int deadSnake){
         Graphics2D g2 = img.createGraphics();
         SnakeThing snakeCorpse = snakeList.get(deadSnake);
@@ -228,6 +233,9 @@ public class Snake extends JPanel implements MouseListener{
         }
     }
 
+    /*
+     * Creates the border around the snake window
+     */
     public void drawBorder()
     {
         Graphics2D g = img.createGraphics();
@@ -241,8 +249,8 @@ public class Snake extends JPanel implements MouseListener{
         g.fillRect(imageWidth-borderThickness,0,borderThickness, verticalBorderHeight);
     }
 
+
     public void mouseClicked(MouseEvent e) {
-        Graphics g = getGraphics();
         int mouseX = e.getX();
         int mouseY = e.getY();
         if ((mouseX<imageWidth-10 && mouseY<imageHeight-10) && 
@@ -286,7 +294,6 @@ public class Snake extends JPanel implements MouseListener{
         super.paintComponent(g);
         drawBorder();
         drawFood();
-        //im ngl i have no idea what this does but seems important
         if (img != null)
             g.drawImage(img, 0, 0, this);
     } 
