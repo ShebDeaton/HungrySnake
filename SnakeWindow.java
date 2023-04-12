@@ -25,6 +25,7 @@ public class SnakeWindow extends JFrame{
     int maxLength = 15;
     int headNum = 2;
     int tailNum = 2;
+    String snakePulse = "Moving";
 
     String[] snakearr = new String[3];
 
@@ -201,13 +202,13 @@ public class SnakeWindow extends JFrame{
                     //this if statement checks if it will be a rainbow snake or not which will depend on what color values it receives
                     if (gradientFlag) {
                         trialSnake.drawSnake2(gradRed, gradGreen, gradBlue, gradRed, gradGreen, gradBlue, size, gradientFlag, maxLength, nameNum, headNum, tailNum);
-                        String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[7], possibleCStrings[7], size, maxLength);
+                        String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d%-26s", snakeNames[nameNum], possibleCStrings[7], possibleCStrings[7], size, maxLength, snakePulse);
                         model.addElement(snakeString);
                     }
                     else {
                         trialSnake.drawSnake2(possibleRedColors[headNum], possibleGreenColors[headNum], possibleBlueColors[headNum], 
                                 possibleRedColors[tailNum], possibleGreenColors[tailNum], possibleBlueColors[tailNum], size, gradientFlag, maxLength, nameNum, headNum, tailNum);
-                        String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[headNum], possibleCStrings[tailNum], size,maxLength);
+                        String snakeString = String.format("%-26s%-26s%-26s%-26d%-26d%-26s", snakeNames[nameNum], possibleCStrings[headNum], possibleCStrings[tailNum], size,maxLength, snakePulse);
                         model.addElement(snakeString);
                     }
                 }
@@ -264,7 +265,14 @@ public class SnakeWindow extends JFrame{
                 int head = trialSnake.snakeList.get(refreshSnakeChoice).getHeadNum();
                 int tail = trialSnake.snakeList.get(refreshSnakeChoice).getTailNum();
                 int nameNum = trialSnake.snakeList.get(refreshSnakeChoice).getNameNum();
-                String refreshString = String.format("%-26s%-26s%-26s%-26d%-26d", snakeNames[nameNum], possibleCStrings[head], possibleCStrings[tail], size,length);
+                boolean pulse = trialSnake.snakeList.get(refreshSnakeChoice).checkPulse();
+                if (pulse == true){
+                    snakePulse = "Moving";
+                }
+                else {
+                    snakePulse = "Stopped";
+                }
+                String refreshString = String.format("%-26s%-26s%-26s%-26d%-26d%-26s", snakeNames[nameNum], possibleCStrings[head], possibleCStrings[tail], size,length,snakePulse);
                 model.setElementAt(refreshString,refreshSnakeChoice);
             }
         });
@@ -316,7 +324,7 @@ public class SnakeWindow extends JFrame{
         eastPan.add(genSnake, gbc);
 
         //adds the label for the top of the JListBox
-        String labelString = String.format("%-26s%-22s%-22s%-22s%-22s", "Name", "Head Color", "Tail Color", "Size","Length");
+        String labelString = String.format("%-26s%-22s%-22s%-22s%-22s%-26s", "Name", "Head Color", "Tail Color", "Size","Length","Status");
         JLabel listLabel = new JLabel(labelString);
         gbc.gridy = 7;
         eastPan.add(listLabel, gbc);
